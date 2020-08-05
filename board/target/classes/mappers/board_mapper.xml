@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.javalec.ex.Dao.BDao">
+
+
+	<!-- 글 리스트 가져오기 -->
+	<select id="b_list" resultType="com.javalec.ex.Dto.BDto">
+		select * from board
+	</select>
+	
+	<!-- 글 상세 보기 -->
+	<select id="b_view" resultType="com.javalec.ex.Dto.BDto">
+		select * from board where b_num=#{param1}
+	</select>
+
+ 	<!-- 글쓰기 -->
+	<insert id="b_write" parameterType="com.javalec.ex.Dto.BDto">
+		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate)
+	</insert>
+	
+	<!-- 글 수정하기 -->
+	<update id="b_update" parameterType="com.javalec.ex.Dto.BDto">
+		update board set b_title=#{b_title}, b_content=#{b_content} where b_num=#{b_num}
+	</update>
+	
+	<!-- 글 삭제하기 -->
+	<delete id="b_delete">
+		delete from board where b_num=#{param}
+	</delete>
+
+</mapper>
