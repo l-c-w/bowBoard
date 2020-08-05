@@ -40,7 +40,7 @@ tr{display:block; border-bottom: 1px solid black;}
 	
 	<script>
 		function b_delete(b_num) {
-			var delete_check = confirm("삭제하시겠습니까>?");
+			var delete_check = confirm("삭제하시겠습니까?");
 			
 			if(delete_check){
 				location.href='b_delete?b_num='+b_num;

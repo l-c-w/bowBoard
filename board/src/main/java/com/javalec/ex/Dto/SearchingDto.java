@@ -3,18 +3,19 @@ package com.javalec.ex.Dto;
 public class SearchingDto {
 	
 	//현재페이지
-	private int curpage = 1;
+	private int cur_page = 1;
 	//검색분류
 	private String sort;
 	//검색어
 	private String keyword;
 	
 	
-	public int getCurpage() {
-		return curpage;
+	
+	public int getCur_page() {
+		return cur_page;
 	}
-	public void setCurpage(int curpage) {
-		this.curpage = curpage;
+	public void setCur_page(int cur_page) {
+		this.cur_page = cur_page;
 	}
 	public String getSort() {
 		return sort;

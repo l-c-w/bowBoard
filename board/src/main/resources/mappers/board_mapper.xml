@@ -7,8 +7,65 @@
 
 
 	<!-- 글 리스트 가져오기 -->
-	<select id="b_list" resultType="com.javalec.ex.Dto.BDto">
-		select * from board
+	<select id="b_list" parameterType="com.javalec.ex.Dto.SearchingDto" resultType="com.javalec.ex.Dto.BDto">
+		select * 
+		from
+		(select row_number() over(order by b_num desc) as rnum, b_num, b_title, b_name,b_content, b_date
+		from
+		(select * from board
+		
+		<!-- 검색조건  분기-->
+		<if test="sort!=null">
+		<choose>
+		<when test="sort.equals('all')">
+		where b_title like '%'||#{keyword}||'%' or b_content like '%'|| #{keyword}||'%'
+		</when>
+		<when test="sort.equals('title')">
+		where b_title like '%'||#{keyword}||'%'
+		</when>
+		<when test="sort.equals('content')">
+		where b_content like '%'||#{keyword}||'%'
+		</when>
+		<when test="sort.equals('writer')">
+		where b_name like '%'||#{keyword}||'%'
+		</when>
+		<when test="sort.equals('w_date')">
+		where b_date=#{keyword}
+		</when>
+		</choose>
+		</if>))
+		
+		<!-- 페이지에 출력할 글 갯수  -->
+		where rnum between #{cur_page}*10-9 and #{cur_page}*10
+	</select>
+	
+	
+	<!-- 게시판 리스트 카운트 -->
+	<select id="b_paging" parameterType="com.javalec.ex.Dto.SearchingDto" resultType="com.javalec.ex.Dto.PagingDto">
+	select count(*) list_count 
+		from board
+		
+		<!-- 검색조건  -->
+		<if test="sort!=null">
+		<choose>
+		<when test="sort.equals('all')">
+		where b_title like '%'||#{keyword}||'%' or b_content like '%'|| #{keyword}||'%'
+		</when>
+		<when test="sort.equals('title')">
+		where b_title like '%'||#{keyword}||'%'
+		</when>
+		<when test="sort.equals('content')">
+		where b_content like '%'||#{keyword}||'%'
+		</when>
+		<when test="sort.equals('writer')">
+		where b_name like '%'||#{keyword}||'%'
+		</when>
+		<when test="sort.equals('w_date')">
+		where b_date like '%'||#{keyword}||'%'
+		</when>
+		</choose>
+		</if>
+
 	</select>
 	
 	<!-- 글 상세 보기 -->

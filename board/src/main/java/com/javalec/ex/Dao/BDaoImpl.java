@@ -1,6 +1,5 @@
 package com.javalec.ex.Dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.Dto.BDto;
+import com.javalec.ex.Dto.PagingDto;
+import com.javalec.ex.Dto.SearchingDto;
 
 @Repository
 public class BDaoImpl implements BDao {
@@ -20,9 +21,16 @@ public class BDaoImpl implements BDao {
 	
 	//글 리스트 가져오기
 	@Override
-	public List<BDto> b_list() throws Exception {
+	public List<BDto> b_list(SearchingDto searchingDto) throws Exception {
 		
-		return sqlSession.selectList(namespace+".b_list");
+		return sqlSession.selectList(namespace+".b_list",searchingDto);
+	}
+	
+	//리스트 페이징
+	@Override
+	public PagingDto b_paging(SearchingDto searchingDto) throws Exception {
+		
+		return sqlSession.selectOne(namespace+".b_paging", searchingDto);
 	}
 	
 	//글 상세보기
@@ -51,6 +59,8 @@ public class BDaoImpl implements BDao {
 		
 		return sqlSession.delete(namespace+".b_delete",b_num);
 	}
+
+	
 
 	
 

@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.javalec.ex.Dto.BDto;
+import com.javalec.ex.Dto.PagingDto;
+import com.javalec.ex.Dto.SearchingDto;
 
 public interface BDao {
 
 	//글 리스트 가져오기
-	public List<BDto> b_list() throws Exception;
+	public List<BDto> b_list(SearchingDto searchingDto) throws Exception;
+	
+	//리스트 페이징
+	public PagingDto b_paging(SearchingDto searchingDto)throws Exception;
 	
 	//글 상세보기
 	public BDto b_view(int b_num) throws Exception;

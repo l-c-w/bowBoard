@@ -22,9 +22,34 @@
 		
 		<textarea rows="10" cols="100" name="b_content" id="b_content"></textarea><br><br>
 		<div id="btn_wrap">
-		<input type="submit" value="작성" style="margin-right: 5px;"><input type="reset" value="취소">
 		</div>
 	</form>
+		<button style="margin-right: 5px;" onclick="write_check()">작성</button><button onclick="history.go(-1))">취소</button>
 	</div>
+	
+	<script>
+		function write_check() {
+			if($("#b_title").val()==""){
+				$("#b_title").focus();
+				$("#b_title").attr("placeholder","제목을 입력해주세요.");
+				return;
+			}
+			
+			if($("#b_name").val()==""){
+				$("#b_name").focus();
+				$("#b_name").attr("placeholder","작성자를 입력해주세요.");
+				return;
+			}
+			
+			if($("#b_content").val()==""){
+				$("#b_content").focus();
+				$("#b_content").attr("placeholder","내용을 입력해주세요.");
+				return;
+			}else{
+				document.b_write.submit();
+			}
+		}
+	
+	</script>
 </body>
 </html>

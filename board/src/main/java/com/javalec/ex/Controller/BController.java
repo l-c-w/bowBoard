@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.javalec.ex.Dto.BDto;
+import com.javalec.ex.Dto.SearchingDto;
 import com.javalec.ex.Service.BService;
 
 @Controller
@@ -18,8 +19,15 @@ public class BController {
 	
 	//게시판 리스트 보기
 	@RequestMapping("board")
-	public String board_list(Model model) throws Exception{
-		model.addAttribute("list",bService.b_list());
+	public String board_list(SearchingDto searchingDto, Model model) throws Exception{
+		System.out.println(searchingDto.getKeyword());
+		
+		//리스트 보내주기
+		model.addAttribute("list",bService.b_list(searchingDto));
+		//페이징 보내기
+		model.addAttribute("paging",bService.b_paging(searchingDto));
+		//검색값 보내기
+		model.addAttribute("sv",searchingDto);
 		
 		return "b_list";
 	}
