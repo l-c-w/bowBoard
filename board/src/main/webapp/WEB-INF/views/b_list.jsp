@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="now" class="java.util.Date"/>
 <!DOCTYPE html>
 <html>
@@ -53,11 +54,13 @@ select{height:22px;}
 		</tr>
 		<hr>
 		
-			<fmt:formatDate var="today" value="${now }" pattern="yy-MM-dd" />
-	<c:forEach var="b_list" items="${list }">
-		<tr class="b_body" onclick="location.href='b_view?b_num=${b_list.b_num}'" style="cursor: pointer;">
-			<td class="b_num">${b_list.b_num }</td>
-			<td class="b_title">${b_list.b_title }</td>
+		<fmt:formatDate var="today" value="${now }" pattern="yy-MM-dd" />
+
+		<c:forEach var="b_list" items="${list }" varStatus="status">
+		<tr class="b_body">
+			<td class="b_num"><!-- ${paging.list_count+10-(status.index+(10*paging.cur_page))}-->
+			${b_list.b_num } </td>
+			<td class="b_title" onclick="location.href='b_view?b_num=${b_list.b_num}'" style="cursor: pointer;">${b_list.b_title }</td>
 			<td class="b_name">${b_list.b_name }</td>
 			<td class="b_date">
 			<fmt:formatDate var="b_date" value="${b_list.b_date }" pattern="yy-MM-dd"/>
