@@ -1,6 +1,8 @@
 package com.javalec.ex.Dto;
 
+
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class BDto {
 	
@@ -9,9 +11,9 @@ public class BDto {
 	
 	private int b_num;
 	private String b_title,b_name,b_content;
-	private Date b_date;
+	private Timestamp b_date;
 		
-	public BDto(int b_b_num, String b_title, String b_name, String b_content, Date b_date) {
+	public BDto(int b_b_num, String b_title, String b_name, String b_content, Timestamp b_date) {
 		
 		this.b_num=b_b_num;
 		this.b_title=b_title;
@@ -52,13 +54,14 @@ public class BDto {
 		this.b_content = b_content;
 	}
 
-	public Date getB_date() {
+	public Timestamp getB_date() {
 		return b_date;
 	}
 
-	public void setB_date(Date b_date) {
+	public void setB_date(Timestamp b_date) {
 		this.b_date = b_date;
 	}
+
 	
 	
 	

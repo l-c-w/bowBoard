@@ -9,6 +9,9 @@ public class SearchingDto {
 	//검색어
 	private String keyword;
 	
+	//날짜 검색용 추가
+	private String end_date;
+	
 	
 	
 	public int getCur_page() {
@@ -28,6 +31,12 @@ public class SearchingDto {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	public String getEnd_date() {
+		return end_date;
+	}
+	public void setEnd_date(String end_date) {
+		this.end_date = end_date;
 	}
 	
 	

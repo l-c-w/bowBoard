@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<jsp:useBean id="now" class="java.util.Date"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,12 +53,25 @@ select{height:22px;}
 		</tr>
 		<hr>
 		
+			<fmt:formatDate var="today" value="${now }" pattern="yy-MM-dd" />
 	<c:forEach var="b_list" items="${list }">
 		<tr class="b_body" onclick="location.href='b_view?b_num=${b_list.b_num}'" style="cursor: pointer;">
 			<td class="b_num">${b_list.b_num }</td>
 			<td class="b_title">${b_list.b_title }</td>
 			<td class="b_name">${b_list.b_name }</td>
-			<td class="b_date">${b_list.b_date }</td>
+			<td class="b_date">
+			<fmt:formatDate var="b_date" value="${b_list.b_date }" pattern="yy-MM-dd"/>
+			
+			
+			<c:choose>
+			<c:when test="${today eq b_date }">
+			<fmt:formatDate value="${b_list.b_date }" pattern="hh:MM"/>
+			</c:when>
+			<c:when test="${today ne b_date }">
+			${b_date }
+			</c:when>
+			</c:choose>
+			</td>
 		</tr>
 	</c:forEach>
 	
@@ -77,9 +91,10 @@ select{height:22px;}
 			</c:if>
 					
 		<!-- 페이지블럭 -->
+			
 			<c:forEach var="index" begin="${paging.start_page }" end="${paging.end_page }" step="1">
 			<c:if test="${paging.cur_page eq index }">
-			<a href="board?cur_page=${index }&sort=${sv.sort }&keyword=${sv.keyword}">${index }</a>
+			<a href="board?cur_page=${index }&sort=${sv.sort }&keyword=${sv.keyword}" style="background-color: black; color: white">${index }</a>
 			</c:if>
 			<c:if test="${paging.cur_page ne index }">
 			<a href="board?cur_page=${index }&sort=${sv.sort }&keyword=${sv.keyword}">${index }</a>
@@ -126,7 +141,7 @@ select{height:22px;}
 			$("#sort").change(function() {
 				if($("#sort option:selected").val()=='w_date'){
 					$("#keyword").prop("type", "date");
-					$("#word").append('~<input type="date" name="keyword2" id="keyword2">');
+					$("#word").append('~<input type="date" name="end_date" id="end_date">');
 				}
 			});	
 		});

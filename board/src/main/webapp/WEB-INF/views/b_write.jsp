@@ -19,12 +19,13 @@
 	<form action="b_write" method="post" name="b_write">
 		<label for="b_title">제목</label><input type="text" name="b_title" id="b_title"><br>
 		<label>작성자</label><input type="text" name="b_name" id="b_name"><br><br>
+		<textarea rows="10" cols="100" name="b_content" id="b_content"></textarea><br>
 		
-		<textarea rows="10" cols="100" name="b_content" id="b_content"></textarea><br><br>
-		<div id="btn_wrap">
-		</div>
 	</form>
-		<button style="margin-right: 5px;" onclick="write_check()">작성</button><button onclick="history.go(-1))">취소</button>
+	<div id="btn_wrap">
+		<button style="margin-right: 5px;" onclick="write_check()">작성</button>
+		<button onclick="history.go(-1)">취소</button>
+	</div>
 	</div>
 	
 	<script>

@@ -64,8 +64,9 @@ public class BController {
 	//글 수정하기
 	@RequestMapping("b_update")
 	public String b_update(BDto bDto)throws Exception {
+		int b_num=bDto.getb_num();
 		bService.b_update(bDto);
-		return "redirect:board";
+		return "redirect:b_view?b_num="+b_num;
 	}
 	
 	//글 삭제하기

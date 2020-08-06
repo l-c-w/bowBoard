@@ -10,7 +10,7 @@
 	<select id="b_list" parameterType="com.javalec.ex.Dto.SearchingDto" resultType="com.javalec.ex.Dto.BDto">
 		select * 
 		from
-		(select row_number() over(order by b_num desc) as rnum, b_num, b_title, b_name,b_content, b_date
+		(select row_number() over(order by b_date desc,b_num desc) as rnum, b_num, b_title, b_name,b_content, b_date
 		from
 		(select * from board
 		
@@ -30,7 +30,7 @@
 		where b_name like '%'||#{keyword}||'%'
 		</when>
 		<when test="sort.equals('w_date')">
-		where b_date=#{keyword}
+		where b_date between #{keyword} and #{end_date}
 		</when>
 		</choose>
 		</if>))
@@ -61,7 +61,7 @@
 		where b_name like '%'||#{keyword}||'%'
 		</when>
 		<when test="sort.equals('w_date')">
-		where b_date like '%'||#{keyword}||'%'
+		where b_date between #{keyword} and #{end_date}
 		</when>
 		</choose>
 		</if>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,7 @@ tr{display:block; border-bottom: 1px solid black;}
 		</tr>
 		<tr>
 		<td id="writer">${b_view.b_name }</td>
-		<td id="date">${b_view.b_date }</td>
+		<td id="date"><fmt:formatDate value="${b_view.b_date }" pattern="yy-MM-dd"/></td>
 		</tr>
 		<tr>
 		<td id="content">${b_view.b_content }</td>
