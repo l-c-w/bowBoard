@@ -15,7 +15,7 @@ a{text-decoration: none; color: black; border: 1px solid #666; padding: 3px;}
 #b_head{border-bottom: 2px solid black;}
 .b_body{margin-bottom: 10px;}
 .b_num{width:80px; text-align: center;}
-.b_title{width:400px; text-align: center;}
+.b_title{display:inline-block; width:400px; height:30px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align: center;}
 .b_name{width:200px; text-align: center;}
 .b_date{width:200px; text-align: center;}
 #search{text-align: center;}
