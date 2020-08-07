@@ -29,7 +29,6 @@ public class BServiceImpl implements BService {
 	public PagingDto b_paging(SearchingDto searchingDto) throws Exception {
 		//리스트 카운트 가져오기
 		PagingDto pagingDto = bDao.b_paging(searchingDto);
-		System.out.println(pagingDto.getList_count());
 		
 		//페이징요소 셋팅
 		pagingDto.setPage_size(10);
@@ -42,16 +41,16 @@ public class BServiceImpl implements BService {
 		pagingDto.setStart_page(pagingDto.getCur_range(), pagingDto.getRange_size());
 		pagingDto.setEnd_page(pagingDto.getCur_range(), pagingDto.getRange_count());
 		
-		System.out.println("page_size:"+pagingDto.getPage_size());
-		System.out.println("range_size:"+pagingDto.getRange_size());
-		System.out.println("cur_page:"+pagingDto.getCur_page());
-		System.out.println("cur_range:"+pagingDto.getCur_range());
-		System.out.println("page_count:"+pagingDto.getPage_count());
-		System.out.println("range_count:"+pagingDto.getRange_count());
-		System.out.println("prev:"+pagingDto.isPrev_page());
-		System.out.println("next:"+pagingDto.isNext_page());
-		System.out.println("startpage:"+pagingDto.getStart_page());
-		System.out.println("endpage:"+pagingDto.getEnd_page());
+//		System.out.println("page_size:"+pagingDto.getPage_size());
+//		System.out.println("range_size:"+pagingDto.getRange_size());
+//		System.out.println("cur_page:"+pagingDto.getCur_page());
+//		System.out.println("cur_range:"+pagingDto.getCur_range());
+//		System.out.println("page_count:"+pagingDto.getPage_count());
+//		System.out.println("range_count:"+pagingDto.getRange_count());
+//		System.out.println("prev:"+pagingDto.isPrev_page());
+//		System.out.println("next:"+pagingDto.isNext_page());
+//		System.out.println("startpage:"+pagingDto.getStart_page());
+//		System.out.println("endpage:"+pagingDto.getEnd_page());
 		
 		return pagingDto;
 	}

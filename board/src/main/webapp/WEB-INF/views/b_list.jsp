@@ -15,7 +15,7 @@ a{text-decoration: none; color: black; border: 1px solid #666; padding: 3px;}
 #b_head{border-bottom: 2px solid black;}
 .b_body{margin-bottom: 10px;}
 .b_num{width:80px; text-align: center;}
-.b_title{display:inline-block; width:400px; height:30px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align: center;}
+.b_title{display:inline-block; width:600px; height:30px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align: center; padding-top: 8px;}
 .b_name{width:200px; text-align: center;}
 .b_date{width:200px; text-align: center;}
 #search{text-align: center;}
@@ -25,6 +25,8 @@ select{height:22px;}
 #keyword{display: inline-block; vertical-align: top; margin-top: 1px}
 #btnWrap{display: inline-block;}
 .b_write{display:inline-block;}
+table{border-collapse: collapse;}
+th{background-color: #efefef}
 
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
