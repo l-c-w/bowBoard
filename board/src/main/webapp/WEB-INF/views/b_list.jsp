@@ -60,8 +60,9 @@ th{background-color: #efefef}
 
 		<c:forEach var="b_list" items="${list }" varStatus="status">
 		<tr class="b_body">
-			<td class="b_num"><!-- ${paging.list_count+10-(status.index+(10*paging.cur_page))}-->
-			${b_list.b_num } </td>
+			<td class="b_num">${b_list.b_num }
+			<!-- ${paging.list_count+10-(status.index+(10*paging.cur_page))}-->
+			</td>
 			<td class="b_title" onclick="location.href='b_view?b_num=${b_list.b_num}'" style="cursor: pointer;">${b_list.b_title }</td>
 			<td class="b_name">${b_list.b_name }</td>
 			<td class="b_date">
@@ -145,7 +146,7 @@ th{background-color: #efefef}
 		$(document).ready(function() {
 			$("#sort").change(function() {
 				if($("#sort option:selected").val()=='w_date'){
-					$("#keyword").prop("type", "date");
+					$("#keyword").attr("type", "date");
 					$("#word").append('~<input type="date" name="end_date" id="end_date">');
 				}
 			});	

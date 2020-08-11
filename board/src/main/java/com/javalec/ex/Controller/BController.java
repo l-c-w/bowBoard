@@ -20,7 +20,6 @@ public class BController {
 	//게시판 리스트 보기
 	@RequestMapping("board")
 	public String board_list(SearchingDto searchingDto, Model model) throws Exception{
-		
 		//리스트 보내주기
 		model.addAttribute("list",bService.b_list(searchingDto));
 		//페이징 보내기
