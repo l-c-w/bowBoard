@@ -1,11 +1,14 @@
 package com.javalec.ex.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.javalec.ex.Dao.BDao;
 import com.javalec.ex.Dto.BDto;
@@ -64,8 +67,9 @@ public class BServiceImpl implements BService {
 
 	//글쓰기
 	@Override
-	public int b_wirte(BDto bDto) throws Exception {
-		
+	public int b_wirte(BDto bDto,HttpSession session) throws Exception {
+		UUID uuid = UUID.randomUUID();
+		session.setAttribute("write_term", uuid);
 		return bDao.b_wirte(bDto);
 	}
 

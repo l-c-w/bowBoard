@@ -2,6 +2,7 @@ package com.javalec.ex.Controller;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,8 +48,8 @@ public class BController {
 	
 	//글 등록
 	@RequestMapping("b_write")
-	public String b_write (BDto bDto)throws Exception {
-		bService.b_wirte(bDto);
+	public String b_write (BDto bDto,HttpSession session)throws Exception {
+		bService.b_wirte(bDto,session);
 		return "redirect:board";
 	}
 	

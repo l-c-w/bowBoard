@@ -11,13 +11,16 @@
 <title>자유게시판</title>
 <style type="text/css">
 a{text-decoration: none; color: black; border: 1px solid #666; padding: 3px;}
-#b_whole{width:1000px; }
+Xmp{font-family:sans-serifs; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; vertical-align: inherit; font-size: 16px; margin: 10px;}
+
+#b_whole{width:1000px; margin: 0 auto; margin-bottom: 50px;}
 #b_head{border-bottom: 2px solid black;}
-.b_body{margin-bottom: 10px;}
-.b_num{width:80px; text-align: center;}
-.b_title{display:inline-block; width:600px; height:30px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align: center; padding-top: 8px;}
-.b_name{width:200px; text-align: center;}
-.b_date{width:200px; text-align: center;}
+/* .b_body{margin-bottom: 10px;} */
+tr{margin-top: 5px;}
+.b_num{width:150px; text-align: center;}
+.b_title{width:550px; height:20px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; }
+.b_name{width:150px; text-align: center; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align: center;}
+.b_date{width:150px; text-align: center;}
 #search{text-align: center;}
 #paging{text-align: center;}
 #search{display:inline-block; margin-top: 10px; margin-left: 300px;}
@@ -32,7 +35,11 @@ th{background-color: #efefef}
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
+	
+	<div id="b_whole">
+	
 	<h1 onclick="location.href='board'" style="cursor: pointer;">자유게시판</h1>
+
 	
 	<!-- 검색결과 표시 -->
 	<c:if test="${not empty sv.keyword }">
@@ -46,8 +53,8 @@ th{background-color: #efefef}
 		</c:choose>
 	</c:if>
 	
-	<div id="b_whole">
 	<table>
+		
 		<tr>
 			<th class="b_num">글번호</th>
 			<th class="b_title">제목</th>
@@ -60,11 +67,12 @@ th{background-color: #efefef}
 
 		<c:forEach var="b_list" items="${list }" varStatus="status">
 		<tr class="b_body">
-			<td class="b_num">${b_list.b_num }
-			<!-- ${paging.list_count+10-(status.index+(10*paging.cur_page))}-->
+			<td class="b_num">
+			${paging.list_count+10-(status.index+(10*paging.cur_page))}
 			</td>
-			<td class="b_title" onclick="location.href='b_view?b_num=${b_list.b_num}'" style="cursor: pointer;">${b_list.b_title }</td>
-			<td class="b_name">${b_list.b_name }</td>
+			<td class="b_title" onclick="location.href='b_view?b_num=${b_list.b_num}'" style="cursor: pointer; text-align: left;">
+			<Xmp style="width:500px;">${b_list.b_title }</Xmp></td>
+			<td class="b_name"><Xmp>${b_list.b_name }</Xmp></td>
 			<td class="b_date">
 			<fmt:formatDate var="b_date" value="${b_list.b_date }" pattern="yy-MM-dd"/>
 			
@@ -139,6 +147,7 @@ th{background-color: #efefef}
 		<button class="b_write" onclick="location.href='board'">전체보기</button>
 	</c:if>
 	</div>
+	</div>
 	
 	
 	<script>
@@ -151,6 +160,16 @@ th{background-color: #efefef}
 				}
 			});	
 		});
+		
+		<%-- function write_check() {
+			log_check='<%=session.getAttribute("write_term")%>';
+			w_check ='<%=session.getMaxInactiveInterval()-session.getCreationTime()%>';
+			alert(log_check);
+			alert(<%=session.getMaxInactiveInterval()%>);
+			alert(<%= new java.util.Date(session.getCreationTime()) %>);
+			location.href='bwrite_page';
+			
+		} --%>
 	
 		function search_check() {
 			if($("#keyword").val()==""){

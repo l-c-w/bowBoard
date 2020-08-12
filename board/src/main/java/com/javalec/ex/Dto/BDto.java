@@ -10,17 +10,32 @@ public class BDto {
 	}
 	
 	private int b_num;
-	private String b_title,b_name,b_content;
+	private String b_title,b_name,b_content,b_pw;
 	private Timestamp b_date;
 		
-	public BDto(int b_b_num, String b_title, String b_name, String b_content, Timestamp b_date) {
+	public BDto(int b_b_num, String b_title, String b_name, String b_content, Timestamp b_date,String b_pw) {
 		
 		this.b_num=b_b_num;
 		this.b_title=b_title;
 		this.b_name=b_name;
 		this.b_content=b_content;
 		this.b_date=b_date;
+		this.b_pw=b_pw;
 	}
+
+	
+	
+	public String getB_pw() {
+		return b_pw;
+	}
+
+
+
+	public void setB_pw(String b_pw) {
+		this.b_pw = b_pw;
+	}
+
+
 
 	public int getb_num() {
 		return b_num;

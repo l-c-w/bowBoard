@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public interface BService {
 	public BDto b_view(HttpServletRequest request) throws Exception;
 	
 	//글쓰기
-	public int b_wirte(BDto bDto) throws Exception;
+	public int b_wirte(BDto bDto,HttpSession session) throws Exception;
 	
 	//글수정
 	public int b_update(BDto bDto)throws Exception;
