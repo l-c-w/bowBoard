@@ -73,31 +73,27 @@ tr{display:block;}
 	<script >
 	$(document).ready(function() {
 		
-					$("#b_title").keypress(function(e) {
-						if (e.keyCode == 13) e.preventDefault();
-					});
-					$("#b_title").keyup(function() {
-						var content = $(this).val();
-						/* $("#title_count").html("<span id='title_count' class='count'>("+content.length+"/100)</span>"); */
-						$("#title_check").text("");
-						if(content.length>100){
-							alert("제목은 최대 100자까지 입력가능합니다.");
-							$(this).val($(this).val().substring(0, 100));
-							/* $("#title_count").html("<span id='title_count' class='count'>(100/100)</span>"); */
-						}				
-					});
-					
-					
-					
-					$("#b_content").keyup(function() {
-						var content = $(this).val();
-						$("#content_count").html("<span id='content_count' class='count'>("+content.length+"/2000)</span>");
-						if(content.length>2000){
-							alert("본문은 최대 2000자까지 입력가능합니다.");
-							$(this).val($(this).val().substring(0, 2000));
-							$("#content_count").html("<span id='content_count' class='count'>(2000/2000)</span>");
-						}	
-					});
+		$("#content_count").html("<span id='content_count' class='count'>("+$("#b_content").val().length+"/2000)</span>");
+		
+		$("#b_title").on("input",function() {
+			var content = $(this).val();
+			if(content.length>100){
+				alert("제목은 최대 100자까지 입력가능합니다.");
+				$(this).val($(this).val().substring(0, 100));
+				$(this).focus();
+			}				
+		});
+		
+		$("#b_content").on("input",function() {
+			var content = $(this).val();
+			$("#content_count").html("<span id='content_count' class='count'>("+content.length+"/2000)</span>");
+			if(content.length>2000){
+				alert("본문은 최대 2000자까지 입력가능합니다.");
+				$(this).val($(this).val().substring(0, 2000));
+				$(this).focus();
+				$("#content_count").html("<span id='content_count' class='count'>(2000/2000)</span>");
+			}	
+		});
 					
 				});
 	
