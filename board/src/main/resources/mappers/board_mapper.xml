@@ -78,6 +78,11 @@
 		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw})
 	</insert>
 	
+	<!-- 비밀번호 확인 -->
+	<select id="pw_ok" parameterType="com.javalec.ex.Dto.BDto" resultType="int">
+		select count(*) from board where b_num=#{b_num} and b_pw=#{b_pw}
+	</select>
+	
 	<!-- 글 수정하기 -->
 	<update id="b_update" parameterType="com.javalec.ex.Dto.BDto">
 		update board set b_title=#{b_title}, b_content=#{b_content} where b_num=#{b_num}

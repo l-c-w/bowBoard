@@ -36,14 +36,17 @@ public class BDto {
 	}
 
 
-
-	public int getb_num() {
+	public int getB_num() {
 		return b_num;
 	}
 
-	public void setb_num(int b_num) {
+
+
+	public void setB_num(int b_num) {
 		this.b_num = b_num;
 	}
+
+
 
 	public String getB_title() {
 		return b_title;

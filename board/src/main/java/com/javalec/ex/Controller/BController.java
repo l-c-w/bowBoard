@@ -1,12 +1,18 @@
 package com.javalec.ex.Controller;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javalec.ex.Dto.BDto;
 import com.javalec.ex.Dto.SearchingDto;
@@ -60,10 +66,27 @@ public class BController {
 		return "b_update";
 	}
 	
+	//비밀번호 확인창 띄우기
+	@RequestMapping("pw_check")
+	public String pw_check(HttpServletRequest request,Model model) {
+		model.addAttribute("b_num",request.getParameter("b_num"));
+		model.addAttribute("type",request.getParameter("type"));
+		
+		return "pw_check";
+	}
+	
+	//비밀번호 확인
+	@PostMapping("pw_ok")
+	@ResponseBody
+	public int pw_ok(BDto bDto,Model model)throws Exception {
+		
+		return bService.pw_ok(bDto);
+	}
+	
 	//글 수정하기
 	@RequestMapping("b_update")
 	public String b_update(BDto bDto)throws Exception {
-		int b_num=bDto.getb_num();
+		int b_num=bDto.getB_num();
 		bService.b_update(bDto);
 		return "redirect:b_view?b_num="+b_num;
 	}
@@ -71,6 +94,7 @@ public class BController {
 	//글 삭제하기
 	@RequestMapping("b_delete")
 	public String b_delete(HttpServletRequest request)throws Exception {
+	
 		bService.b_delete(request);
 		return "redirect:board";
 	}

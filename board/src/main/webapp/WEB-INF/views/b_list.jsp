@@ -11,16 +11,18 @@
 <title>자유게시판</title>
 <style type="text/css">
 a{text-decoration: none; color: black; border: 1px solid #666; padding: 3px;}
-Xmp{font-family:sans-serifs; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; vertical-align: inherit; font-size: 16px; margin: 10px;}
-
 #b_whole{width:1000px; margin: 0 auto; margin-bottom: 50px;}
-#b_head{border-bottom: 2px solid black;}
-/* .b_body{margin-bottom: 10px;} */
-tr{margin-top: 5px;}
-.b_num{width:150px; text-align: center;}
-.b_title{width:550px; height:20px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; }
-.b_name{width:150px; text-align: center; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align: center;}
-.b_date{width:150px; text-align: center;}
+table{width: 1000px; border-collapse: collapse;}
+
+
+tr{margin-top: 10px;}
+td{text-overflow:ellipsis; overflow:hidden; white-space:nowrap; margin-top: 10px;}
+th{height: 30px; vertical-align: middle; padding-top: 10px;}
+.b_num{display:inline-block; float:left; width:120px; text-align: center; } 
+.b_title{display:inline-block; float:left; width:600px;  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right: 30px;}
+.b_name{display:block; float:left; width:120px; text-align: center; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align: center;}
+.b_date{width:120px; float:left; text-align: center;}
+
 #search{text-align: center;}
 #paging{text-align: center;}
 #search{display:inline-block; margin-top: 10px; margin-left: 300px;}
@@ -45,7 +47,7 @@ th{background-color: #efefef}
 	<c:if test="${not empty sv.keyword }">
 		<c:choose>
 		<c:when test="${paging.list_count>0 }">
-		<h3>"${sv.keyword }" 로 검색하여 "${paging.list_count } 건"의 게시물을 찾았습니다. </h3>
+		<h3>"<c:out value="${sv.keyword }"/> " 로 검색하여 "<c:out value="${paging.list_count }"/>건"의 게시물을 찾았습니다. </h3>
 		</c:when>
 		<c:when test="${paging.list_count==0 }">
 		<h3>검색결과가 없습니다. </h3>
@@ -66,13 +68,13 @@ th{background-color: #efefef}
 		<fmt:formatDate var="today" value="${now }" pattern="yy-MM-dd" />
 
 		<c:forEach var="b_list" items="${list }" varStatus="status">
-		<tr class="b_body">
-			<td class="b_num">
-			${paging.list_count+10-(status.index+(10*paging.cur_page))}
+		<tr id="b_body">
+			<td class="b_num" >
+			<c:out value="${paging.list_count+10-(status.index+(10*paging.cur_page))}"/>  
 			</td>
-			<td class="b_title" onclick="location.href='b_view?b_num=${b_list.b_num}'" style="cursor: pointer; text-align: left;">
-			<Xmp style="width:500px;">${b_list.b_title }</Xmp></td>
-			<td class="b_name"><Xmp>${b_list.b_name }</Xmp></td>
+			<td class="b_title" onclick="location.href='b_view?b_num=${b_list.b_num}'" style="cursor: pointer; text-align: left; ">
+			<c:out value="${b_list.b_title }"/></td>
+			<td class="b_name"><c:out value="${b_list.b_name }"/></td>
 			<td class="b_date">
 			<fmt:formatDate var="b_date" value="${b_list.b_date }" pattern="yy-MM-dd"/>
 			
@@ -82,7 +84,7 @@ th{background-color: #efefef}
 			<fmt:formatDate value="${b_list.b_date }" pattern="hh:MM"/>
 			</c:when>
 			<c:when test="${today ne b_date }">
-			${b_date }
+			<c:out value="${b_date }"/> 
 			</c:when>
 			</c:choose>
 			</td>
@@ -97,31 +99,31 @@ th{background-color: #efefef}
 		<div id="paging">
 			
 		<!-- 첫 페이지로 -->
-			<a href="board?cur_Page=1&sort=${sv.sort }&keyword=${sv.keyword}">처음</a>
+			<a href="board?cur_Page=1&sort=${sv.sort }&keyword=${sv.keyword}&end_date=${sv.end_date}">처음</a>
 				
 		<!-- 앞 페이지로 -->
 			<c:if test="${paging.prev_page }">
-			<a href="board?cur_page=${paging.start_page-1 }&sort=${sv.sort }&keyword=${sv.keyword}">〈</a>
+			<a href="board?cur_page=${paging.start_page-1 }&sort=${sv.sort }&keyword=${sv.keyword}&end_date=${sv.end_date}">〈</a>
 			</c:if>
 					
 		<!-- 페이지블럭 -->
 			
 			<c:forEach var="index" begin="${paging.start_page }" end="${paging.end_page }" step="1">
 			<c:if test="${paging.cur_page eq index }">
-			<a href="board?cur_page=${index }&sort=${sv.sort }&keyword=${sv.keyword}" style="background-color: black; color: white">${index }</a>
+			<a href="board?cur_page=${index }&sort=${sv.sort }&keyword=${sv.keyword}&end_date=${sv.end_date}" style="background-color: black; color: white">${index }</a>
 			</c:if>
 			<c:if test="${paging.cur_page ne index }">
-			<a href="board?cur_page=${index }&sort=${sv.sort }&keyword=${sv.keyword}">${index }</a>
+			<a href="board?cur_page=${index }&sort=${sv.sort }&keyword=${sv.keyword}&end_date=${sv.end_date}">${index }</a>
 			</c:if>
 			</c:forEach>
 						
 		<!-- 다음 페이지로 -->
 			<c:if test="${paging.next_page }">
-			<a href="board?cur_page=${paging.end_page+1 }&sort=${sv.sort }&keyword=${sv.keyword}">〉</a>
+			<a href="board?cur_page=${paging.end_page+1 }&sort=${sv.sort }&keyword=${sv.keyword}&end_date=${sv.end_date}">〉</a>
 			</c:if>
 						
 		<!-- 마지막 페이지로 -->
-			<a href="board?cur_page=${paging.page_count }&sort=${sv.sort }&keyword=${sv.keyword}">마지막</a>
+			<a href="board?cur_page=${paging.page_count }&sort=${sv.sort }&keyword=${sv.keyword}&end_date=${sv.end_date}">마지막</a>
 
 			</div>
 			</c:if>

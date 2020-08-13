@@ -1,5 +1,6 @@
 package com.javalec.ex.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,6 +73,14 @@ public class BServiceImpl implements BService {
 		session.setAttribute("write_term", uuid);
 		return bDao.b_wirte(bDto);
 	}
+	
+	//비밀번호 확인
+	@Override
+	public int pw_ok(BDto bDto) throws Exception {
+		
+		return bDao.pw_ok(bDto);
+	}
+
 
 	//글수정
 	@Override
@@ -87,4 +96,5 @@ public class BServiceImpl implements BService {
 		return bDao.b_delete(b_num);
 	}
 
+	
 }

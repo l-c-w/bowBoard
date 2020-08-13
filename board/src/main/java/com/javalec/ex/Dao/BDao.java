@@ -21,6 +21,9 @@ public interface BDao {
 	//글쓰기
 	public int b_wirte(BDto bDto) throws Exception;
 	
+	//비밀번호 찾기
+	public int pw_ok(BDto bDto)throws Exception;
+	
 	//글수정
 	public int b_update(BDto bDto)throws Exception;
 	

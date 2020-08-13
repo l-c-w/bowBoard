@@ -2,6 +2,7 @@ package com.javalec.ex.Service;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,9 @@ public interface BService {
 	
 	//글쓰기
 	public int b_wirte(BDto bDto,HttpSession session) throws Exception;
+	
+	//비밀번호 확인
+	public int pw_ok(BDto bDto)throws Exception;
 	
 	//글수정
 	public int b_update(BDto bDto)throws Exception;

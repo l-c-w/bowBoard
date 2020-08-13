@@ -47,6 +47,13 @@ public class BDaoImpl implements BDao {
 		return sqlSession.insert(namespace+".b_write", bDto);
 	}
 	
+	//비밀번호 찾기
+	@Override
+	public int pw_ok(BDto bDto) throws Exception {
+		
+		return sqlSession.selectOne(namespace+".pw_ok", bDto);
+	}
+	
 	//글수정
 	@Override
 	public int b_update(BDto bDto) throws Exception {
@@ -59,6 +66,8 @@ public class BDaoImpl implements BDao {
 		
 		return sqlSession.delete(namespace+".b_delete",b_num);
 	}
+
+	
 
 	
 
