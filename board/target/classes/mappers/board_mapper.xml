@@ -10,7 +10,7 @@
 	<select id="b_list" parameterType="com.javalec.ex.Dto.SearchingDto" resultType="com.javalec.ex.Dto.BDto">
 		select * 
 		from
-		(select row_number() over(order by b_group desc, b_step asc,b_date asc) as rnum, 
+		(select row_number() over(order by b_group desc, b_step asc,b_date desc) as rnum, 
 		b_num, b_title, b_name,b_content, b_date, b_step, b_group, b_indent
 		from
 		(select * from board
