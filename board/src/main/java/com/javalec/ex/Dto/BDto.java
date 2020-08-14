@@ -9,11 +9,12 @@ public class BDto {
 	public BDto() {
 	}
 	
-	private int b_num;
+	private int b_num,b_group,b_step,b_indent;
 	private String b_title,b_name,b_content,b_pw;
 	private Timestamp b_date;
 		
-	public BDto(int b_b_num, String b_title, String b_name, String b_content, Timestamp b_date,String b_pw) {
+	public BDto(int b_b_num, String b_title, String b_name, String b_content, Timestamp b_date,String b_pw,
+				int b_group, int b_step, int b_indent) {
 		
 		this.b_num=b_b_num;
 		this.b_title=b_title;
@@ -21,6 +22,9 @@ public class BDto {
 		this.b_content=b_content;
 		this.b_date=b_date;
 		this.b_pw=b_pw;
+		this.b_group=b_group;
+		this.b_step=b_step;
+		this.b_indent=b_indent;
 	}
 
 	
@@ -79,6 +83,44 @@ public class BDto {
 	public void setB_date(Timestamp b_date) {
 		this.b_date = b_date;
 	}
+
+
+
+	public int getB_group() {
+		return b_group;
+	}
+
+
+
+	public void setB_group(int b_group) {
+		this.b_group = b_group;
+	}
+
+
+
+	public int getB_step() {
+		return b_step;
+	}
+
+
+
+	public void setB_step(int b_step) {
+		this.b_step = b_step;
+	}
+
+
+
+	public int getB_indent() {
+		return b_indent;
+	}
+
+
+
+	public void setB_indent(int b_indent) {
+		this.b_indent = b_indent;
+	}
+	
+	
 
 	
 	

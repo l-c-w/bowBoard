@@ -6,20 +6,24 @@ public class PagingDto {
 	private int page_size;
 	//페이지 블럭에 노출될 페이지 수
 	private int range_size;
+	
 	//현재 페이지 위치
 	private int cur_page;
-	//현재 블럭 위치
+	//현재 페이지 블럭 위치
 	private int cur_range;
+	
 	//총 게시글 수
 	private int list_count;
 	//총 페이지 수
 	private int page_count;
 	//총 페이지 블럭 수
 	private int range_count;
+	
 	//현재 블럭 시작페이지
 	private int start_page;
 	//현재 블럭 끝 페이지
 	private int end_page;
+	
 	//이전페이지 버튼 노출
 	private boolean prev_page;
 	//다음페이지 버튼 노출
@@ -58,7 +62,7 @@ public class PagingDto {
 		if(cur_page%getRange_size()==0) {
 			this.cur_range = cur_page/getRange_size();
 		}else {
-			this.cur_range = cur_page/getRange_size()+1;			
+			this.cur_range = cur_page/getRange_size()+1;
 		}
 	}
 
@@ -135,7 +139,7 @@ public class PagingDto {
 			if (getRange_count() == 1) {
 				setPrev_page(false);
 				setNext_page(false);
-			} else if (curPage > 0 && curPage < (getRange_size()+1)) {
+			} else if (getRange_count() > 1 && curPage < (getRange_size()+1)) {
 				setPrev_page(false);
 				setNext_page(true);
 			} else if (getRange_count() * getRange_size() - getRange_size()< curPage) {

@@ -45,17 +45,6 @@ public class BServiceImpl implements BService {
 		pagingDto.setStart_page(pagingDto.getCur_range(), pagingDto.getRange_size());
 		pagingDto.setEnd_page(pagingDto.getCur_range(), pagingDto.getRange_count());
 		
-//		System.out.println("page_size:"+pagingDto.getPage_size());
-//		System.out.println("range_size:"+pagingDto.getRange_size());
-//		System.out.println("cur_page:"+pagingDto.getCur_page());
-//		System.out.println("cur_range:"+pagingDto.getCur_range());
-//		System.out.println("page_count:"+pagingDto.getPage_count());
-//		System.out.println("range_count:"+pagingDto.getRange_count());
-//		System.out.println("prev:"+pagingDto.isPrev_page());
-//		System.out.println("next:"+pagingDto.isNext_page());
-//		System.out.println("startpage:"+pagingDto.getStart_page());
-//		System.out.println("endpage:"+pagingDto.getEnd_page());
-		
 		return pagingDto;
 	}
 	
@@ -68,10 +57,28 @@ public class BServiceImpl implements BService {
 
 	//글쓰기
 	@Override
-	public int b_wirte(BDto bDto,HttpSession session) throws Exception {
-		UUID uuid = UUID.randomUUID();
-		session.setAttribute("write_term", uuid);
-		return bDao.b_wirte(bDto);
+	public int b_write(BDto bDto) throws Exception {
+		
+		return bDao.b_write(bDto);
+	}
+	
+	//답변 등록
+	@Override
+	public int b_reply(BDto bDto, HttpServletRequest request) throws Exception {
+		bDto.setB_group(Integer.parseInt(request.getParameter("b_group")));
+		bDto.setB_step(Integer.parseInt(request.getParameter("b_step")));
+		bDto.setB_indent(Integer.parseInt(request.getParameter("b_indent")));
+		
+		return bDao.b_reply(bDto);
+	}
+
+	//등록 전 요소 업데이트
+	@Override
+	public int stepup(HttpServletRequest request) throws Exception {
+		BDto bDto = new BDto();
+		 bDto.setB_group(Integer.parseInt(request.getParameter("b_group")));
+		 bDto.setB_step(Integer.parseInt(request.getParameter("b_step")));
+		return bDao.stepup(bDto);
 	}
 	
 	//비밀번호 확인
@@ -95,6 +102,9 @@ public class BServiceImpl implements BService {
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
 		return bDao.b_delete(b_num);
 	}
+
+	
+
 
 	
 }

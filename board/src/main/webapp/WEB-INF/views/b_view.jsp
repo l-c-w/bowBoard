@@ -42,6 +42,7 @@ pre{width: 1000px; font-family: sans-serif; font-size: 14px; word-break:break-al
 		</tr>
 	</table>
 	<div id="btnwrap">
+	<button onclick="location.href='bwrite_page?type=reply&b_group=${b_view.b_group}&b_step=${b_view.b_step }&b_indent=${b_view.b_indent }'">답변달기</button>
 	<button onclick="pw_check('${b_view.b_num}')">수정</button>
 	<button onclick="b_delete('${b_view.b_num }')">삭제</button>
 	<button onclick="history.go(-1)">목록</button>

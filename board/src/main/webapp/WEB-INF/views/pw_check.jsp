@@ -16,12 +16,18 @@ div{width:220px; margin: 50px auto; }
 	<h3>비밀번호 확인</h3>
 	<form action="pw_ok" name="pw_check" method="post">
 		<input type="hidden" value="${b_num }" name="b_num">
-		<input type="password" name="b_pw" id="b_pw" placeholder="비밀번호를 입력하세요.">
+		<input type="password" name="b_pw" id="b_pw" placeholder="비밀번호를 입력하세요." fo>
 		<button type="button" onclick="go_check('${b_num}','${type }')">확인</button>
 	</form>
 	<span id="notice" class="checking"></span>
 	</div>
 	<script>
+	
+	$(function() {
+		  $("#b_pw").focus();
+		});
+	
+	
 	function go_check(b_num,type) {
 		var input_pw= $("#pw").val();
 		var pw_data = $("form[name=pw_check]").serialize();

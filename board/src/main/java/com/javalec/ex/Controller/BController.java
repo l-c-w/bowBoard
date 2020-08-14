@@ -48,14 +48,28 @@ public class BController {
 	
 	//글 등록 페이지로 이동
 	@RequestMapping("bwrite_page")
-	public String bwrite_page() {
+	public String bwrite_page(HttpServletRequest request, Model model)throws Exception {
+		
+		model.addAttribute("type",request.getParameter("type"));
+		model.addAttribute("b_group",request.getParameter("b_group"));
+		model.addAttribute("b_step",request.getParameter("b_step"));
+		model.addAttribute("b_indent",request.getParameter("b_indent"));
+
 		return "b_write";
 	}
 	
 	//글 등록
 	@RequestMapping("b_write")
-	public String b_write (BDto bDto,HttpSession session)throws Exception {
-		bService.b_wirte(bDto,session);
+	public String b_write (BDto bDto)throws Exception {
+		bService.b_write(bDto);
+		return "redirect:board";
+	}
+	
+	//답변등록
+	@RequestMapping("b_reply")
+	public String b_reply(BDto bDto,HttpServletRequest request)throws Exception {
+		bService.stepup(request);
+		bService.b_reply(bDto, request);
 		return "redirect:board";
 	}
 	
@@ -98,6 +112,8 @@ public class BController {
 		bService.b_delete(request);
 		return "redirect:board";
 	}
+	
+	
 	
 	
 }

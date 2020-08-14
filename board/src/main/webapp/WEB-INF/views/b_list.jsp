@@ -73,6 +73,7 @@ th{background-color: #efefef}
 			<c:out value="${paging.list_count+10-(status.index+(10*paging.cur_page))}"/>  
 			</td>
 			<td class="b_title" onclick="location.href='b_view?b_num=${b_list.b_num}'" style="cursor: pointer; text-align: left; ">
+			<c:forEach begin="1" end="${b_list.b_indent }" step="1">ㄴ</c:forEach>
 			<c:out value="${b_list.b_title }"/></td>
 			<td class="b_name"><c:out value="${b_list.b_name }"/></td>
 			<td class="b_date">
@@ -101,7 +102,7 @@ th{background-color: #efefef}
 		<!-- 첫 페이지로 -->
 			<a href="board?cur_Page=1&sort=${sv.sort }&keyword=${sv.keyword}&end_date=${sv.end_date}">처음</a>
 				
-		<!-- 앞 페이지로 -->
+		<!-- 앞 블럭으로 -->
 			<c:if test="${paging.prev_page }">
 			<a href="board?cur_page=${paging.start_page-1 }&sort=${sv.sort }&keyword=${sv.keyword}&end_date=${sv.end_date}">〈</a>
 			</c:if>
@@ -117,7 +118,7 @@ th{background-color: #efefef}
 			</c:if>
 			</c:forEach>
 						
-		<!-- 다음 페이지로 -->
+		<!-- 다음 블럭으로 -->
 			<c:if test="${paging.next_page }">
 			<a href="board?cur_page=${paging.end_page+1 }&sort=${sv.sort }&keyword=${sv.keyword}&end_date=${sv.end_date}">〉</a>
 			</c:if>

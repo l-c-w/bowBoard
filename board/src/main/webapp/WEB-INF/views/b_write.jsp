@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,19 +26,24 @@
 <body>
 	<div>
 	<h3 onclick="location.href='board'" style="cursor: pointer;">자유게시판 ></h3>
-	<h1>글쓰기</h1>
+	<c:choose>
+		<c:when test="${empty type }">
+		<h1>글쓰기</h1>
+		</c:when>
+		<c:when test="${type eq 'reply' }">
+		<h1>답변 작성</h1>
+		</c:when>
+	</c:choose>
 	<form action="b_write" method="post" name="b_write">
 		<label for="b_title">제목</label><br><input type="text" name="b_title" id="b_title" class="all_check" placeholder="제목을 입력하세요.">
 		<br>
 		<span id="title_check" class="checking"></span>
 		<br>
-		<!-- <span id="title_count" class="count">0/100자</span> -->
 		
 		<label>작성자</label><br><input type="text" name="b_name" id="b_name" class="all_check" placeholder="작성자명을 입력하세요.">
 		<br>
 		<span id="name_check" class="checking"></span>
 		<br>
-		<!-- <span id="name_count" class="count">0/10자</span> -->
 		
 		<div id="pw_wrap">
 		<label>비밀번호</label><br><input type="password" name="b_pw" id="b_pw" class="all_check" placeholder="비밀번호를 입력하세요.">
@@ -46,7 +52,6 @@
 		<span id="pw_check" class="checking"></span>
 		<br>
 		
-		<!-- <span id="pw_count" class="count">0/10자</span> -->
 		</div>
 		<br>
 		<br>
@@ -54,15 +59,26 @@
 		<textarea rows="10" cols="100" name="b_content" id="b_content" class="all_check" placeholder="내용을 입력하세요."></textarea>
 		<span id="content_count" class="count">0/2000자</span>
 		<span id="content_check" class="checking"></span>
+		
 	</form>
 	<div id="btn_wrap">
+	<c:choose>
+		<c:when test="${empty type }">
 		<button style="margin-right: 5px;" onclick="write_check()">작성</button>
+		</c:when>
+		<c:when test="${type eq 'reply' }">
+		<button style="margin-right: 5px;" onclick="write_check('${type}','${b_group }','${b_step }','${b_indent }')">작성</button>
+		</c:when>
+	</c:choose>
+	
 		<button onclick="history.go(-1)">목록</button>
 	</div>
 	</div>
 	
 	<script>
 		$(document).ready(function() {
+			
+			
 			
 		$("#b_title").on("input",function() {
 				var content = $(this).val();
@@ -106,9 +122,8 @@
 		});
 			
 			
-		function write_check() {
-			
-			
+		function write_check(type,b_group,b_step,b_indent) {
+			alert(b_group+','+b_step+','+b_indent);
 			
 			if($("#b_title").val().replace(/ /g, "").length==0){
 				$("#b_title").val('');
@@ -146,7 +161,22 @@
 				$("#content_check").text("※내용이 비어있습니다.");
 				return;
 			}else{
-				document.b_write.submit();
+				
+					
+				if(type=="reply"){
+					b_write.action='b_reply?b_group='+b_group+'&b_step='+b_step+'&b_indent='+b_indent;
+					b_write.method='post';
+					b_write.submit();
+					
+					
+				}else{
+					b_write.action='b_write';
+					b_write.method='post';
+					b_write.submit();
+					
+				}
+				
+				
 			}
 		}
 	

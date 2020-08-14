@@ -42,9 +42,23 @@ public class BDaoImpl implements BDao {
 	
 	//글쓰기
 	@Override
-	public int b_wirte(BDto bDto) throws Exception {
+	public int b_write(BDto bDto) throws Exception {
 		
 		return sqlSession.insert(namespace+".b_write", bDto);
+	}
+	
+	//답변 등록
+	@Override
+	public int b_reply(BDto bDto) throws Exception {
+		System.out.println(bDto.getB_group()); 
+		return sqlSession.insert(namespace+".b_reply", bDto);
+	}
+	
+	//등록 전 요소 업데이트
+	@Override
+	public int stepup(BDto bDto) throws Exception {
+
+		return sqlSession.update(namespace+".stepup", bDto);
 	}
 	
 	//비밀번호 찾기
@@ -66,6 +80,10 @@ public class BDaoImpl implements BDao {
 		
 		return sqlSession.delete(namespace+".b_delete",b_num);
 	}
+
+	
+
+	
 
 	
 

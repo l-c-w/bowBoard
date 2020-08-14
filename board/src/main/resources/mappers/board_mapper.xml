@@ -10,7 +10,8 @@
 	<select id="b_list" parameterType="com.javalec.ex.Dto.SearchingDto" resultType="com.javalec.ex.Dto.BDto">
 		select * 
 		from
-		(select row_number() over(order by b_date desc,b_num desc) as rnum, b_num, b_title, b_name,b_content, b_date
+		(select row_number() over(order by b_group desc, b_step asc,b_date asc) as rnum, 
+		b_num, b_title, b_name,b_content, b_date, b_step, b_group, b_indent
 		from
 		(select * from board
 		
@@ -75,7 +76,17 @@
 
  	<!-- 글쓰기 -->
 	<insert id="b_write" parameterType="com.javalec.ex.Dto.BDto">
-		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw})
+		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw},b_seq.currval,0,0)
+	</insert>
+	
+	<!-- 등록 전 요소 업데이트 -->
+	<update id="stepup" parameterType="com.javalec.ex.Dto.BDto">
+		update board set b_step=b_step+1 where b_group=#{b_group} and b_step>#{b_step}
+	</update>
+	
+	<!-- 답변등록 -->
+	<insert id="b_reply" parameterType="com.javalec.ex.Dto.BDto">
+		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw},#{b_group},#{b_step}+1,#{b_indent}+1)
 	</insert>
 	
 	<!-- 비밀번호 확인 -->

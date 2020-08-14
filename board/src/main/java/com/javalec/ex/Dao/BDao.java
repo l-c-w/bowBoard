@@ -19,7 +19,13 @@ public interface BDao {
 	public BDto b_view(int b_num) throws Exception;
 	
 	//글쓰기
-	public int b_wirte(BDto bDto) throws Exception;
+	public int b_write(BDto bDto) throws Exception;
+	
+	//답변작성
+	public int b_reply(BDto bDto)throws Exception;
+	
+	//등록 전 요소 업데이트
+	public int stepup(BDto bDto)throws Exception;
 	
 	//비밀번호 찾기
 	public int pw_ok(BDto bDto)throws Exception;
