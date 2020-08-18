@@ -38,7 +38,7 @@ div{width:220px; margin: 50px auto; }
 			data:pw_data,
 			dataType:"json",
 			success: function(data) {
-				if(data==1){
+				if(data=="1"){
 					window.close();
 					if(type=="update"){
 					opener.location.href="bupdate_page?b_num="+${b_num};						

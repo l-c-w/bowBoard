@@ -112,7 +112,7 @@ public class PagingDto {
 
 	public void setEnd_page(int cur_range,int range_count) {
 		if(cur_range==range_count) {
-			this.end_page = getPage_count();			
+			this.end_page = getPage_count();		
 		}else {
 			this.end_page=cur_range*getRange_size();
 		}

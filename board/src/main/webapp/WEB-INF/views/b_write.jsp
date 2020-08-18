@@ -123,7 +123,6 @@
 			
 			
 		function write_check(type,b_group,b_step,b_indent) {
-			alert(b_group+','+b_step+','+b_indent);
 			
 			if($("#b_title").val().replace(/ /g, "").length==0){
 				$("#b_title").val('');
