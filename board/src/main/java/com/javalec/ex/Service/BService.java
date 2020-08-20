@@ -40,7 +40,7 @@ public interface BService {
 	//글수정
 	public int b_update(BDto bDto)throws Exception;
 	
-	//글삭제
+	//글삭제(답변글 포함)
 	public int b_delete(HttpServletRequest request)throws Exception;
-
+	
 }

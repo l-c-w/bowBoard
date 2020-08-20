@@ -34,6 +34,7 @@ tr{display:block;}
 	<form action="b_update" method="post" name="b_update">
 	<table>
 		<input type="hidden" value="${b_view.b_num }" name="b_num">
+		<input type="hidden" value="${cur_page }" name="cur_page">
 		<tr id="title">
 		<td>
 		<label for="b_title">제목</label><br><input type="text" value="${b_view.b_title }" name="b_title" id="b_title">

@@ -33,7 +33,11 @@ pre{width: 1000px; font-family: sans-serif; font-size: 14px; word-break:break-al
 		<tr>
 		<td><img alt="멤버" src="resources/images/member.png" width="60px" height="40px;"> </td>
 		<td id="writer"><span id="id"><c:out value="${b_view.b_name }"/></span><br>
-		<span id="date"><fmt:formatDate value="${b_view.b_date }" pattern="yy-MM-dd"/></span>
+		<span id="date"><fmt:formatDate value="${b_view.b_date }" pattern="yy-MM-dd"/>
+		<c:if test="${not empty b_view.u_date }">
+		<br>최근수정 <fmt:formatDate value="${b_view.u_date }" pattern="yy-MM-dd hh:mm:ss"/>
+		</c:if>
+		</span>
 		</td>
 		
 		</tr>
@@ -43,25 +47,26 @@ pre{width: 1000px; font-family: sans-serif; font-size: 14px; word-break:break-al
 	</table>
 	<div id="btnwrap">
 	<button onclick="location.href='bwrite_page?type=reply&b_group=${b_view.b_group}&b_step=${b_view.b_step }&b_indent=${b_view.b_indent }'">답변달기</button>
-	<button onclick="pw_check('${b_view.b_num}')">수정</button>
-	<button onclick="b_delete('${b_view.b_num }')">삭제</button>
-	<button onclick="history.go(-1)">목록</button>
+	<button onclick="pw_check('${b_view.b_num}','${cur_page }')">수정</button>
+	<button onclick="b_delete('${b_view.b_num }','${cur_page }','${b_view.b_group }','${b_view.b_step }')">삭제</button>
+	<button onclick="location.href='board?cur_page=${cur_page}'">목록</button>
 	</div>
 	</div>
 	
 	<script>
 	
-		function pw_check(b_num) {
+		function pw_check(b_num,cur_page) {
+			
 			
 			var popupWidth = 400;
 			var popupHeight = 200;
 			var popupX = (window.screen.width / 2) - (popupWidth / 2);
 			var popupY= (window.screen.height / 2) - (popupHeight / 2);
-			window.open('pw_check?type=update&b_num='+b_num,'viewer', 'width='+popupWidth+', height='+popupHeight+',left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);	
+			window.open('pw_check?type=update&b_num='+b_num+'&cur_page='+cur_page,'viewer', 'width='+popupWidth+', height='+popupHeight+',left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);	
 		}
 	
 	
-		function b_delete(b_num) {
+		function b_delete(b_num,cur_page,b_group,b_step) {
 			var delete_check = confirm("삭제하시겠습니까?");
 			
 			if(delete_check){
@@ -70,7 +75,7 @@ pre{width: 1000px; font-family: sans-serif; font-size: 14px; word-break:break-al
 				var popupHeight = 200;
 				var popupX = (window.screen.width / 2) - (popupWidth / 2);
 				var popupY= (window.screen.height / 2) - (popupHeight / 2);
-				window.open('pw_check?type=delete&b_num='+b_num,'viewer', 'width='+popupWidth+', height='+popupHeight+',left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+				window.open('pw_check?type=delete&b_num='+b_num+'&cur_page='+cur_page+'&b_group='+b_group+'&b_step='+b_step,'viewer', 'width='+popupWidth+', height='+popupHeight+',left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
 				
 				
 			}else{

@@ -81,6 +81,21 @@ public class BDaoImpl implements BDao {
 		return sqlSession.delete(namespace+".b_delete",b_num);
 	}
 
+	//답변 달린 글 삭제
+	@Override
+	public int r_delete(int b_num) throws Exception {
+		
+		return sqlSession.update(namespace+".r_delete",b_num);
+	}
+
+	//답변 여부 확인
+	@Override
+	public int r_check(BDto bDto) throws Exception {
+		
+		return sqlSession.selectOne(namespace+".r_check",bDto);
+	}
+	
+
 	
 
 	

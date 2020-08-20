@@ -27,6 +27,7 @@ public class BController {
 	//게시판 리스트 보기
 	@RequestMapping("board")
 	public String board_list(SearchingDto searchingDto, Model model) throws Exception{
+		
 		//리스트 보내주기
 		model.addAttribute("list",bService.b_list(searchingDto));
 		//페이징 보내기
@@ -42,6 +43,7 @@ public class BController {
 	public String b_view(HttpServletRequest request, Model model)throws Exception {
 		
 		model.addAttribute("b_view", bService.b_view(request));
+		model.addAttribute("cur_page",request.getParameter("cur_page"));
 		
 		return "b_view";
 	}
@@ -77,6 +79,7 @@ public class BController {
 	@RequestMapping("bupdate_page")
 	public String bupdate_page(HttpServletRequest request,Model model)throws Exception {
 		model.addAttribute("b_view", bService.b_view(request));
+		model.addAttribute("cur_page",request.getParameter("cur_page"));
 		return "b_update";
 	}
 	
@@ -85,6 +88,9 @@ public class BController {
 	public String pw_check(HttpServletRequest request,Model model) {
 		model.addAttribute("b_num",request.getParameter("b_num"));
 		model.addAttribute("type",request.getParameter("type"));
+		model.addAttribute("cur_page",request.getParameter("cur_page"));
+		model.addAttribute("b_group",request.getParameter("b_group"));
+		model.addAttribute("b_step",request.getParameter("b_step"));
 		
 		return "pw_check";
 	}
@@ -99,10 +105,11 @@ public class BController {
 	
 	//글 수정하기
 	@RequestMapping("b_update")
-	public String b_update(BDto bDto)throws Exception {
+	public String b_update(BDto bDto,HttpServletRequest request)throws Exception {
 		int b_num=bDto.getB_num();
+		String cur_page = request.getParameter("cur_page");
 		bService.b_update(bDto);
-		return "redirect:b_view?b_num="+b_num;
+		return "redirect:b_view?b_num="+b_num+"&cur_page="+cur_page;
 	}
 	
 	//글 삭제하기

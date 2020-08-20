@@ -72,8 +72,11 @@ th{background-color: #efefef}
 			<td class="b_num" >
 			<c:out value="${paging.list_count+10-(status.index+(10*paging.cur_page))}"/>  
 			</td>
-			<td class="b_title" onclick="location.href='b_view?b_num=${b_list.b_num}'" style="cursor: pointer; text-align: left; ">
-			<c:forEach begin="1" end="${b_list.b_indent }" step="1">ㄴ</c:forEach>
+			<td class="b_title" onclick="location.href='b_view?b_num=${b_list.b_num}&cur_page=${paging.cur_page}'" style="cursor: pointer; text-align: left; ">
+			<c:if test="${b_list.b_indent>0 }">
+			<c:forEach begin="1" end="${b_list.b_indent }" step="1">&nbsp&nbsp&nbsp</c:forEach>
+			ㄴ
+			</c:if>
 			<c:out value="${b_list.b_title }"/></td>
 			<td class="b_name"><c:out value="${b_list.b_name }"/></td>
 			<td class="b_date">

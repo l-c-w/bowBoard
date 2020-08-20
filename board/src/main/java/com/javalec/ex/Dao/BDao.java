@@ -35,4 +35,10 @@ public interface BDao {
 	
 	//글삭제
 	public int b_delete(int b_num)throws Exception;
+	
+	//답변이 달려있는 글 삭제
+	public int r_delete(int b_num)throws Exception;
+	
+	//답변 달려있는 글인지 확인
+	public int r_check(BDto bDto)throws Exception;
 }

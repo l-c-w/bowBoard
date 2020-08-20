@@ -100,7 +100,21 @@ public class BServiceImpl implements BService {
 	@Override
 	public int b_delete(HttpServletRequest request) throws Exception {
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
-		return bDao.b_delete(b_num);
+		int b_group = Integer.parseInt(request.getParameter("b_group"));
+		int b_step = Integer.parseInt(request.getParameter("b_step"));
+		BDto bDto = new BDto();
+		bDto.setB_num(b_num);
+		bDto.setB_step(b_step);
+		
+		int check=0;
+		
+		//답변이 달려있는가에 따라 완전삭제, 이름제목내용만 삭제
+		if(bDao.r_check(bDto)==0) {
+			check= bDao.b_delete(b_num);
+		}else if(bDao.r_check(bDto)>0) {
+			check= bDao.r_delete(b_num);
+		}
+		return check;
 	}
 
 	
