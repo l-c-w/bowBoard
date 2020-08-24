@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javalec.ex.Dto.BDto;
+import com.javalec.ex.Dto.RDto;
 import com.javalec.ex.Dto.SearchingDto;
 import com.javalec.ex.Service.BService;
 
@@ -114,10 +115,20 @@ public class BController {
 	
 	//글 삭제하기
 	@RequestMapping("b_delete")
-	public String b_delete(HttpServletRequest request)throws Exception {
+	public String b_delete(BDto bDto)throws Exception {
 	
-		bService.b_delete(request);
+		bService.b_delete(bDto);
 		return "redirect:board";
+	}
+	
+	//리플등록
+	@RequestMapping("r_write")
+	@ResponseBody
+	public int r_write(RDto rDto)throws Exception {
+		System.out.println("여기오냐?");
+		
+		return bService.r_write(rDto);
+		
 	}
 	
 	

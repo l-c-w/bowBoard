@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.Dto.BDto;
 import com.javalec.ex.Dto.PagingDto;
+import com.javalec.ex.Dto.RDto;
 import com.javalec.ex.Dto.SearchingDto;
 
 @Repository
@@ -93,6 +94,13 @@ public class BDaoImpl implements BDao {
 	public int r_check(BDto bDto) throws Exception {
 		
 		return sqlSession.selectOne(namespace+".r_check",bDto);
+	}
+
+	//리플 등록
+	@Override
+	public int r_write(RDto rDto) throws Exception {
+
+		return sqlSession.insert(namespace+".r_write", rDto);
 	}
 	
 

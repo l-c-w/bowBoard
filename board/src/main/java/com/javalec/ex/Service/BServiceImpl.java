@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.javalec.ex.Dao.BDao;
 import com.javalec.ex.Dto.BDto;
 import com.javalec.ex.Dto.PagingDto;
+import com.javalec.ex.Dto.RDto;
 import com.javalec.ex.Dto.SearchingDto;
 
 @Service
@@ -98,23 +99,24 @@ public class BServiceImpl implements BService {
 
 	//글삭제
 	@Override
-	public int b_delete(HttpServletRequest request) throws Exception {
-		int b_num = Integer.parseInt(request.getParameter("b_num"));
-		int b_group = Integer.parseInt(request.getParameter("b_group"));
-		int b_step = Integer.parseInt(request.getParameter("b_step"));
-		BDto bDto = new BDto();
-		bDto.setB_num(b_num);
-		bDto.setB_step(b_step);
+	public int b_delete(BDto bDto) throws Exception {
 		
 		int check=0;
 		
 		//답변이 달려있는가에 따라 완전삭제, 이름제목내용만 삭제
 		if(bDao.r_check(bDto)==0) {
-			check= bDao.b_delete(b_num);
+			check= bDao.b_delete(bDto.getB_num());
 		}else if(bDao.r_check(bDto)>0) {
-			check= bDao.r_delete(b_num);
+			check= bDao.r_delete(bDto.getB_num());
 		}
 		return check;
+	}
+
+	//리플 작성
+	@Override
+	public int r_write(RDto rDto) throws Exception {
+		
+		return bDao.r_write(rDto);
 	}
 
 	

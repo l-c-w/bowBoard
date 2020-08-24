@@ -106,13 +106,17 @@
 	
 	<!-- 댓글이 있는 글 내용 -->
 	<delete id="r_delete">
-		update board set b_name=null, b_title=null, b_content=null,b_group=null,u_update=sysdate where b_num=#{b_num} 
+		update board set b_name=null, b_title=null, b_content=null,u_date=sysdate where b_num=#{b_num} 
 	</delete>
 	
 	<!-- 리플 체크 -->
-	<select id="r_check" parameterType="com.javalec.ex.Dto.BDto">
-		select count(*) from board where b_group=#{b_num} and b_step=#{b_step}+1 and #{b_indent}+1
-	
+	<select id="r_check" parameterType="com.javalec.ex.Dto.BDto" resultType="int">
+		select count(*) from board where b_group=#{b_group} and b_step=#{b_step}+1
 	</select>
+	
+	<!-- 리플 작성 -->
+	<insert id="r_write" parameterType="com.javalec.ex.Dto.RDto">
+		insert into r_board values(r_seq.nextval,#{r_name},#{r_pw},#{r_content},sysdate,'')
+	</insert>
 	
 </mapper>

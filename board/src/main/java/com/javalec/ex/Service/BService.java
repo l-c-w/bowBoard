@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.javalec.ex.Dto.BDto;
 import com.javalec.ex.Dto.PagingDto;
+import com.javalec.ex.Dto.RDto;
 import com.javalec.ex.Dto.SearchingDto;
 
 public interface BService {
@@ -41,6 +42,9 @@ public interface BService {
 	public int b_update(BDto bDto)throws Exception;
 	
 	//글삭제(답변글 포함)
-	public int b_delete(HttpServletRequest request)throws Exception;
+	public int b_delete(BDto bDto)throws Exception;
+	
+	//리플 작성
+	public int r_write(RDto rDto)throws Exception;
 	
 }

@@ -18,7 +18,7 @@ div{width:220px; margin: 50px auto; }
 		<input type="hidden" value="${b_num }" name="b_num">
 		<input type="password" name="b_pw" id="b_pw" placeholder="비밀번호를 입력하세요." fo>
 		<button type="button" onclick="go_check('${b_num}','${type }')">확인</button>
-		${b_step}
+		${b_step},${b_group }
 	</form>
 	<span id="notice" class="checking"></span>
 	</div>
@@ -45,7 +45,7 @@ div{width:220px; margin: 50px auto; }
 					opener.location.href="bupdate_page?b_num="+${b_num}+"&cur_page="+${cur_page};						
 					}else if(type=="delete"){
 						window.close();
-						opener.location.href="b_delete?b_num="+${b_num}+"&b_step="+${b_step}+"&b_group="+${b_group};	
+						opener.location.href="b_delete?&b_step="+${b_step}+"&b_group="+${b_group}+"&b_num="+${b_num};	
 					}
 				}else{
 					$("#notice").text("※비밀번호가 틀립니다.");

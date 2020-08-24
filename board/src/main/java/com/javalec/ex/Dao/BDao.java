@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.javalec.ex.Dto.BDto;
 import com.javalec.ex.Dto.PagingDto;
+import com.javalec.ex.Dto.RDto;
 import com.javalec.ex.Dto.SearchingDto;
 
 public interface BDao {
@@ -41,4 +42,7 @@ public interface BDao {
 	
 	//답변 달려있는 글인지 확인
 	public int r_check(BDto bDto)throws Exception;
+	
+	//리플 작성
+	public int r_write(RDto rDto)throws Exception;
 }
