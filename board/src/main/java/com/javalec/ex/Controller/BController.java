@@ -45,6 +45,8 @@ public class BController {
 		
 		model.addAttribute("b_view", bService.b_view(request));
 		model.addAttribute("cur_page",request.getParameter("cur_page"));
+		model.addAttribute("r_count",bService.r_count(request));
+		model.addAttribute("r_list",bService.r_list(request));
 		
 		return "b_view";
 	}
@@ -92,6 +94,7 @@ public class BController {
 		model.addAttribute("cur_page",request.getParameter("cur_page"));
 		model.addAttribute("b_group",request.getParameter("b_group"));
 		model.addAttribute("b_step",request.getParameter("b_step"));
+		model.addAttribute("r_num",request.getParameter("r_num"));
 		
 		return "pw_check";
 	}
@@ -99,9 +102,9 @@ public class BController {
 	//비밀번호 확인
 	@PostMapping("pw_ok")
 	@ResponseBody
-	public int pw_ok(BDto bDto,Model model)throws Exception {
+	public int pw_ok(HttpServletRequest request,Model model)throws Exception {
 		
-		return bService.pw_ok(bDto);
+		return bService.pw_ok(request);
 	}
 	
 	//글 수정하기
@@ -121,14 +124,30 @@ public class BController {
 		return "redirect:board";
 	}
 	
-	//리플등록
+	//리플 등록
 	@RequestMapping("r_write")
 	@ResponseBody
 	public int r_write(RDto rDto)throws Exception {
-		System.out.println("여기오냐?");
 		
 		return bService.r_write(rDto);
 		
+	}
+	
+	//리플 수정
+	@RequestMapping("r_update")
+	@ResponseBody
+	public int r_update(HttpServletRequest request)throws Exception {
+		
+		
+		return bService.r_update(request);
+	}
+	
+	//리플 삭제
+	@RequestMapping("r_delete")
+	@ResponseBody
+	public int r_delete(HttpServletRequest request)throws Exception {
+		
+		return bService.r_delete(request);
 	}
 	
 	

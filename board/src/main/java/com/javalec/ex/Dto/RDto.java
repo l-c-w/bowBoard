@@ -4,16 +4,30 @@ import java.sql.Timestamp;
 
 public class RDto {
 	
+	private int m_num;
 	private int r_num;
 	private String r_name,r_pw,r_content;
 	private Timestamp r_date,ru_date;
 	
-	public RDto(String r_name, String r_pw, String r_content, Timestamp r_date, Timestamp ru_date) {
+	public RDto() {
+	}
+	
+	public RDto(int m_num, int r_num, String r_name, String r_pw, String r_content, Timestamp r_date, Timestamp ru_date) {
+		this.m_num=m_num;
+		this.r_num=r_num;
 		this.r_name=r_name;
 		this.r_pw=r_pw;
 		this.r_content=r_content;
 		this.r_date=r_date;
 		this.ru_date=ru_date;
+	}
+	
+	public int getm_num() {
+		return m_num;
+	}
+
+	public void setm_num(int m_num) {
+		this.m_num = m_num;
 	}
 
 	public int getR_num() {

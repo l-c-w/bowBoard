@@ -51,7 +51,6 @@ public class BDaoImpl implements BDao {
 	//답변 등록
 	@Override
 	public int b_reply(BDto bDto) throws Exception {
-		System.out.println(bDto.getB_group()); 
 		return sqlSession.insert(namespace+".b_reply", bDto);
 	}
 	
@@ -84,9 +83,9 @@ public class BDaoImpl implements BDao {
 
 	//답변 달린 글 삭제
 	@Override
-	public int r_delete(int b_num) throws Exception {
+	public int br_delete(int b_num) throws Exception {
 		
-		return sqlSession.update(namespace+".r_delete",b_num);
+		return sqlSession.update(namespace+".br_delete",b_num);
 	}
 
 	//답변 여부 확인
@@ -101,6 +100,39 @@ public class BDaoImpl implements BDao {
 	public int r_write(RDto rDto) throws Exception {
 
 		return sqlSession.insert(namespace+".r_write", rDto);
+	}
+
+	//리플 갯수
+	@Override
+	public int r_count(int b_num) throws Exception {
+	
+		return sqlSession.selectOne(namespace+".r_count", b_num);
+	}
+	
+	//리플 리스트 가져오기
+	@Override
+	public List<RDto> r_list(int b_num) throws Exception {
+		return sqlSession.selectList(namespace+".r_list", b_num);
+	}
+
+	//리플 비밀번호 확인
+	@Override
+	public int rpw_ok(RDto rDto) throws Exception {
+
+		return sqlSession.selectOne(namespace+".rpw_ok", rDto);
+	}
+	//댓글 수정
+	@Override
+	public int r_update(RDto rDto) throws Exception {
+		
+		return sqlSession.update(namespace+".r_update", rDto);
+	}
+	
+	//댓글 삭제
+	@Override
+	public int r_delete(int r_num) throws Exception {
+		
+		return sqlSession.delete(namespace+".r_delete", r_num);
 	}
 	
 

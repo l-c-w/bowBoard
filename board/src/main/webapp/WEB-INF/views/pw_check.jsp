@@ -15,10 +15,11 @@ div{width:220px; margin: 50px auto; }
 	<div>
 	<h3>비밀번호 확인</h3>
 	<form action="pw_ok" name="pw_check" method="post">
-		<input type="hidden" value="${b_num }" name="b_num">
-		<input type="password" name="b_pw" id="b_pw" placeholder="비밀번호를 입력하세요." fo>
-		<button type="button" onclick="go_check('${b_num}','${type }')">확인</button>
-		${b_step},${b_group }
+		<input type="hidden" name="b_num" value="${b_num }">
+		<input type="hidden" name="r_num" value="${r_num }">
+	
+		<input type="password" name="b_pw" id="b_pw" placeholder="비밀번호를 입력하세요.">
+		<button type="button" onclick="go_check('${b_num}','${type }','${cur_page}','${b_step}','${b_group}',${r_num })">확인</button>
 	</form>
 	<span id="notice" class="checking"></span>
 	</div>
@@ -29,9 +30,10 @@ div{width:220px; margin: 50px auto; }
 		});
 	
 	
-	function go_check(b_num,type) {
+	function go_check(b_num,type,cur_page,b_step,b_group,r_num) {
 		var input_pw= $("#pw").val();
-		var pw_data = $("form[name=pw_check]").serialize();
+			
+		var pw_data = $("form[name=pw_check]").serialize()+"&type="+type;
 		
 		$.ajax({
 			type:"post",
@@ -42,10 +44,28 @@ div{width:220px; margin: 50px auto; }
 				if(data=="1"){
 					if(type=="update"){
 					window.close();
-					opener.location.href="bupdate_page?b_num="+${b_num}+"&cur_page="+${cur_page};						
+					opener.location.href="bupdate_page?b_num="+b_num+"&cur_page="+cur_page;						
 					}else if(type=="delete"){
 						window.close();
-						opener.location.href="b_delete?&b_step="+${b_step}+"&b_group="+${b_group}+"&b_num="+${b_num};	
+						opener.location.href="b_delete?&b_step="+b_step+"&b_group="+b_group+"&b_num="+b_num;	
+					}else if(type=="r_update"){
+						window.close();
+						opener.parent.r_change(r_num);
+					}else if(type=="r_delete"){
+						$.ajax({
+							type:"post",
+							url:"r_delete",
+							data:{"r_num":r_num},
+							success: function(data) {
+								if(data==1){
+								window.close();
+								opener.location.reload(true);									
+								}
+							},error: function() {
+								alert("통신에러");
+							}
+						});
+						
 					}
 				}else{
 					$("#notice").text("※비밀번호가 틀립니다.");

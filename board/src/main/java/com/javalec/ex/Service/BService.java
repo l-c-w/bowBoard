@@ -36,7 +36,7 @@ public interface BService {
 	public int stepup(HttpServletRequest request)throws Exception;
 	
 	//비밀번호 확인
-	public int pw_ok(BDto bDto)throws Exception;
+	public int pw_ok(HttpServletRequest request)throws Exception;
 	
 	//글수정
 	public int b_update(BDto bDto)throws Exception;
@@ -46,5 +46,17 @@ public interface BService {
 	
 	//리플 작성
 	public int r_write(RDto rDto)throws Exception;
+	
+	//리플 갯수
+	public int r_count(HttpServletRequest request)throws Exception;
+	
+	//리플 리스트 가져오기
+	public List<RDto> r_list(HttpServletRequest request)throws Exception;
+	
+	//리플 수정
+	public int r_update(HttpServletRequest request)throws Exception;
+	
+	//리플 삭제
+	public int r_delete(HttpServletRequest request)throws Exception;
 	
 }

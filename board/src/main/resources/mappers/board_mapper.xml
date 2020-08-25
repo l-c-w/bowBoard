@@ -105,7 +105,7 @@
 	</delete>
 	
 	<!-- 댓글이 있는 글 내용 -->
-	<delete id="r_delete">
+	<delete id="br_delete">
 		update board set b_name=null, b_title=null, b_content=null,u_date=sysdate where b_num=#{b_num} 
 	</delete>
 	
@@ -116,7 +116,31 @@
 	
 	<!-- 리플 작성 -->
 	<insert id="r_write" parameterType="com.javalec.ex.Dto.RDto">
-		insert into r_board values(r_seq.nextval,#{r_name},#{r_pw},#{r_content},sysdate,'')
+		insert into r_board values(#{m_num},r_seq.nextval,#{r_name},#{r_pw},#{r_content},sysdate,'')
 	</insert>
 	
+	<!-- 리플 갯수 가져오기 -->
+	<select id="r_count" resultType="int">
+		select count(*) from r_board where b_num=#{param}
+	</select>
+	
+	<!-- 리플 리스트 가져오기 -->
+	<select id="r_list" resultType="com.javalec.ex.Dto.RDto">
+		select * from r_board where b_num=#{param} order by r_num desc
+	</select>
+	
+	<!-- 리플 비밀번호 확인 -->
+	<select id="rpw_ok" parameterType="com.javalec.ex.Dto.RDto" resultType="int">
+		select count(*) from r_board where r_num=#{r_num} and r_pw=#{r_pw}
+	</select>
+	
+	<!-- 리플 수정 -->
+	<update id="r_update" parameterType="com.javalec.ex.Dto.RDto">
+		update r_board set r_content=#{r_content} where r_num=#{r_num}
+	</update>
+	
+	<!-- 리플 삭제 -->
+	<delete id="r_delete">
+		delete from r_board where r_num=#{param}
+	</delete>
 </mapper>

@@ -84,9 +84,22 @@ public class BServiceImpl implements BService {
 	
 	//비밀번호 확인
 	@Override
-	public int pw_ok(BDto bDto) throws Exception {
+	public int pw_ok(HttpServletRequest request) throws Exception {
+		int result =0;
+		String type = request.getParameter("type");
+		if(type.equals("update")||type.equals("delete")) {
+			BDto bDto = new BDto();
+			bDto.setB_num(Integer.parseInt(request.getParameter("b_num")));
+			bDto.setB_pw(request.getParameter("b_pw"));
+			result =bDao.pw_ok(bDto);
+		}else if(type.equals("r_update")||type.equals("r_delete")) {
+			RDto rDto = new RDto();
+			rDto.setR_num(Integer.parseInt(request.getParameter("r_num")));
+			rDto.setR_pw(request.getParameter("b_pw"));
+			result= bDao.rpw_ok(rDto);
+		}
 		
-		return bDao.pw_ok(bDto);
+		return result;
 	}
 
 
@@ -107,7 +120,7 @@ public class BServiceImpl implements BService {
 		if(bDao.r_check(bDto)==0) {
 			check= bDao.b_delete(bDto.getB_num());
 		}else if(bDao.r_check(bDto)>0) {
-			check= bDao.r_delete(bDto.getB_num());
+			check= bDao.br_delete(bDto.getB_num());
 		}
 		return check;
 	}
@@ -117,6 +130,40 @@ public class BServiceImpl implements BService {
 	public int r_write(RDto rDto) throws Exception {
 		
 		return bDao.r_write(rDto);
+	}
+
+	//리플 갯수
+	@Override
+	public int r_count(HttpServletRequest request) throws Exception {
+		int b_num = Integer.parseInt(request.getParameter("b_num"));
+
+		return bDao.r_count(b_num);
+	}
+
+	//댓글 리스트 가져오기
+	@Override
+	public List<RDto> r_list(HttpServletRequest request) throws Exception {
+		int b_num = Integer.parseInt(request.getParameter("b_num"));
+		
+		return bDao.r_list(b_num);
+	}
+
+	//리플 수정
+	@Override
+	public int r_update(HttpServletRequest request) throws Exception {
+		RDto rDto = new RDto();
+		
+		rDto.setR_num(Integer.parseInt(request.getParameter("r_num")));
+		rDto.setR_content(request.getParameter("r_content"));
+		return bDao.r_update(rDto);
+	}
+
+	//리플 삭제
+	@Override
+	public int r_delete(HttpServletRequest request) throws Exception {
+		int r_num = Integer.parseInt(request.getParameter("r_num"));
+		
+		return bDao.r_delete(r_num);
 	}
 
 	

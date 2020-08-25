@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<jsp:useBean id="now" class="java.util.Date"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,13 +22,18 @@ pre{width: 1000px; font-family: sans-serif; font-size: 14px; word-break:break-al
 #btnwrap{float: right; margin-top: 10px;}
 #reply{width: 1030px; border-bottom: 5px double #ddd; border-top: 5px double #ddd; margin-top: 100px;}
 #reply_write{width: 1030px; margin-top: 5px; padding-bottom: 5px;}
-#reply_list{}
+#reply_list{font-size: 14px; color: grey;}
 
 input:focus{outline: none;}
 #r_name{border:none; border-bottom: 2px solid  #ddd;}
 #r_pw{border:none; border-bottom: 2px solid  #ddd;}
-#r_content{width:900px; height:100px; border:none; border: 2px solid  #ddd;}
+#r_content{width:912px; height:100px; border:none; border: 2px solid  #ddd;}
 #r_submit{width:100px; height:108px; background: black; color: white; border: 0; cursor: pointer;}
+
+ul{width:1000px; height:100%; text-decoration: none; list-style: none; padding-left: 0;}
+li{width: 1000px;}
+#r_Lname{color: #2a6496; font-weight: bold; margin-right: 5px;}
+#r_date{font-size: 12px; color: grey;}
 
 	
 </style>
@@ -35,7 +41,7 @@ input:focus{outline: none;}
 </head>
 <body>
 	<div id="whole_wrap">
-	<h3 onclick="location.href='board'" style="cursor: pointer;">자유게시판 ></h3>
+	<h3 onclick="location.href='board'" style="cursor: pointer;" id="top">자유게시판 ></h3>
 	<table id="view_table">
 		<tr id="title">
 		<td><c:out value="${b_view.b_title }"/></td>
@@ -66,6 +72,7 @@ input:focus{outline: none;}
 	<div id="reply_write">
 	<h3>댓글 작성</h3>
 	<form action="r_write" method="post" name="r_write" id="r_write">
+	<input type="hidden" name="m_num" id="m_num" value="${b_view.b_num}">
 	<table>
 	<tr>
 	<td style="width: 300px;"><label>작성자<input type="text" name="r_name" id="r_name"></label>
@@ -87,10 +94,44 @@ input:focus{outline: none;}
 	<div id="reply_list">
 	</div>
 	</div>
+	
+	<div id="save_point">
+	<h3><span style="color: #FF5E00; padding-left: 10px;">${r_count }</span> 개의 댓글이 달려있습니다.</h3>
+			<c:forEach var="rList" items="${r_list }">
+		<ul style="width:1010px; border-bottom: 1px solid #ddd; padding: 10px;" id="">
+			<li style="height: 30px;">
+			<img alt="멤버" src="resources/images/member.png" width="30px" height="20px;">
+				<span id="${rList.r_num }r_Lname">${rList.r_name }</span>
+			<fmt:formatDate var="r_date" value="${rList.r_date }" pattern="yy-MM-dd"/>
+			<fmt:formatDate var="today" value="${now }" pattern="yy-MM-dd" />
+			<span id="r_date" class="${rList.r_num }r_date">[
+			<c:choose>
+			<c:when test="${today eq r_date }">
+			<fmt:formatDate value="${rList.r_date }" pattern="hh:MM"/>
+			</c:when>
+			<c:when test="${today ne r_date }">
+			<c:out value="${r_date }"/> 
+			</c:when>
+			</c:choose>
+			]</span>	
+			</li>
+			<div id="${rList.r_num }">
+			<li style="margin-bottom: 10px;" id="${rList.r_num }r_content">${rList.r_content }</li>
+			<li  style="width:1030px; height:20px; margin-left: 920px;">
+				<button class="btn" type="button" onclick="rpw_check('${rList.r_num }')">수정</button>
+				<button class="btn" type="button" onclick="r_delete('${rList.r_num }')">삭제</button>
+			</li>
+			</div>	
+		</ul>
+			</c:forEach>
 	</div>
 	
+	</div>
+	<div style="position: fixed; bottom: 10px; right: 100px;">
+		<a href="#top"><img alt="최상단으로" src="resources/images/go_top.png" style="width: 100px; height: 100px;"> </a>
+	</div>
 	<script>
-	
+		//본글 수정 비밀번호 체크
 		function pw_check(b_num,cur_page,b_group,b_step) {
 			
 			
@@ -101,7 +142,7 @@ input:focus{outline: none;}
 			window.open('pw_check?type=update&b_num='+b_num+'&cur_page='+cur_page+'&b_group='+b_group+'&b_step='+b_step,'viewer', 'width='+popupWidth+', height='+popupHeight+',left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);	
 		}
 	
-	
+		//본글 삭제 비밀번호 체크
 		function b_delete(b_num,cur_page,b_group,b_step) {
 			var delete_check = confirm("삭제하시겠습니까?");
 			
@@ -118,7 +159,7 @@ input:focus{outline: none;}
 				return;
 			}
 		}
-		
+		//댓글 등록
 		function r_check() {
 			var r_data = $("form[name=r_write]").serialize();
 			
@@ -128,6 +169,9 @@ input:focus{outline: none;}
 				data:r_data,
 				success: function(data) {
 					if(data==1){
+						alert("댓글이 등록되었습니다.");
+						window.location.reload();
+						$(window).scrollTop($("#save_point").offset().top);
 					}else{
 						alert("작성에 실패했습니다.");
 					}
@@ -139,6 +183,81 @@ input:focus{outline: none;}
 			});
 			
 		}
+	
+	//댓글 수정 비밀번호 체크
+	function rpw_check(r_num) {
+		
+		var update_check= confirm("댓글을 수정하시겠습니까?");
+			
+			if(update_check){
+				var popupWidth = 400;
+				var popupHeight = 200;
+				var popupX = (window.screen.width / 2) - (popupWidth / 2);
+				var popupY= (window.screen.height / 2) - (popupHeight / 2);
+				window.open('pw_check?type=r_update&r_num='+r_num,'viewer', 'width='+popupWidth+', height='+popupHeight+',left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);	
+			}else {
+				return;
+			}
+				
+		}
+	
+	//수정창으로 변경
+	function r_change(r_num) {
+		
+		$(".btn").hide();
+		var r_num_id="#"+r_num;
+		var r_content_id= "#"+r_num+"r_content";		
+		var r_content = $(r_content_id).text();
+		
+		
+		var html='<textarea name="ru_content" id="ru_content" rows="5" cols="138" style="margin-bottom:5px;">'+r_content+'</textarea>'
+					+'<li  style="width:1030px; height:20px; margin-left: 920px;">'
+					+'<button type="button" onclick="r_update('+r_num+')" style="margin-right:5px;">확인</button>'
+					+'<button type="button" onclick="go_back()">취소</button>'
+					+'</li>';		
+					
+		$(r_num_id).html(html);
+			
+	}
+	
+	//댓글 삭제 비밀번호 체크
+	function r_delete(r_num) {
+		
+		var del_check= confirm("댓글을 삭제하시겠습니까?");
+		
+		if(del_check){
+			var popupWidth = 400;
+			var popupHeight = 200;
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			window.open('pw_check?type=r_delete&r_num='+r_num,'viewer', 'width='+popupWidth+', height='+popupHeight+',left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);	
+		}else{
+			return;
+		}
+		
+			
+	}
+	//리플 수정
+	 function r_update(r_num) {
+		var r_content =$("#ru_content").val();
+		
+		   $.ajax({
+			type:"post",
+			url:"r_update",
+			data:{"r_num":r_num,"r_content":r_content},
+			success: function(data) {
+				document.location.reload(true);
+			},error: function () {
+				alert("통신실패");
+			}
+			
+		}); 	 
+		
+	}
+	
+	function go_back() {
+		document.location.reload(true);
+	}
 	
 	
 	

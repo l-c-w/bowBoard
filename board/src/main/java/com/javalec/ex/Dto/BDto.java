@@ -9,12 +9,12 @@ public class BDto {
 	public BDto() {
 	}
 	
-	private int b_num,b_group,b_step,b_indent;
+	private int b_num,b_group,b_step,b_indent, repl_count;
 	private String b_title,b_name,b_content,b_pw;
 	private Timestamp b_date,u_date;
 		
 	public BDto(int b_b_num, String b_title, String b_name, String b_content, Timestamp b_date,String b_pw,
-				int b_group, int b_step, int b_indent,Timestamp u_date) {
+				int b_group, int b_step, int b_indent,Timestamp u_date,int repl_count) {
 		
 		this.b_num=b_b_num;
 		this.b_title=b_title;
@@ -26,6 +26,7 @@ public class BDto {
 		this.b_step=b_step;
 		this.b_indent=b_indent;
 		this.u_date=u_date;
+		this.repl_count=repl_count;
 	}
 
 	
@@ -131,6 +132,18 @@ public class BDto {
 
 	public void setU_date(Timestamp u_date) {
 		this.u_date = u_date;
+	}
+
+
+
+	public int getRepl_count() {
+		return repl_count;
+	}
+
+
+
+	public void setRepl_count(int repl_count) {
+		this.repl_count = repl_count;
 	}
 	
 	

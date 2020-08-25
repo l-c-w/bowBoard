@@ -38,11 +38,26 @@ public interface BDao {
 	public int b_delete(int b_num)throws Exception;
 	
 	//답변이 달려있는 글 삭제
-	public int r_delete(int b_num)throws Exception;
+	public int br_delete(int b_num)throws Exception;
 	
 	//답변 달려있는 글인지 확인
 	public int r_check(BDto bDto)throws Exception;
 	
 	//리플 작성
 	public int r_write(RDto rDto)throws Exception;
+	
+	//리플 갯수
+	public int r_count(int b_num)throws Exception;
+	
+	//리플 리스트 가져오기
+	public List<RDto> r_list(int b_num)throws Exception;
+	
+	//리플 비밀번호 확인
+	public int  rpw_ok(RDto rDto)throws Exception;
+	
+	//리플 수정
+	public int r_update(RDto rDto)throws Exception;
+	
+	//리플 삭제
+	public int r_delete(int r_num)throws Exception;
 }
