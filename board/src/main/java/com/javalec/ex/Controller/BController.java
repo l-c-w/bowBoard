@@ -118,10 +118,10 @@ public class BController {
 	
 	//글 삭제하기
 	@RequestMapping("b_delete")
-	public String b_delete(BDto bDto)throws Exception {
-	
+	public String b_delete(HttpServletRequest request, BDto bDto)throws Exception {
+		int cur_page=Integer.parseInt(request.getParameter("cur_page"));
 		bService.b_delete(bDto);
-		return "redirect:board";
+		return "redirect:board?cur_page="+cur_page;
 	}
 	
 	//리플 등록

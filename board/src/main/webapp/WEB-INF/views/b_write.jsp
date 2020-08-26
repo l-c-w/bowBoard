@@ -65,13 +65,14 @@
 	<c:choose>
 		<c:when test="${empty type }">
 		<button style="margin-right: 5px;" onclick="write_check()">작성</button>
+		<button onclick="history.go(-1)">목록</button>
 		</c:when>
 		<c:when test="${type eq 'reply' }">
 		<button style="margin-right: 5px;" onclick="write_check('${type}','${b_group }','${b_step }','${b_indent }')">작성</button>
+		<button onclick="history.go(-1)">이전</button>
 		</c:when>
 	</c:choose>
-	
-		<button onclick="history.go(-1)">목록</button>
+		
 	</div>
 	</div>
 	

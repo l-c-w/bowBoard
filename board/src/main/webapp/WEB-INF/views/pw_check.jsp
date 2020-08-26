@@ -15,6 +15,7 @@ div{width:220px; margin: 50px auto; }
 	<div>
 	<h3>비밀번호 확인</h3>
 	<form action="pw_ok" name="pw_check" method="post">
+	<input type="hidden" name="type" value="${type }">
 		<input type="hidden" name="b_num" value="${b_num }">
 		<input type="hidden" name="r_num" value="${r_num }">
 	
@@ -40,14 +41,15 @@ div{width:220px; margin: 50px auto; }
 			url:"pw_ok",
 			data:pw_data,
 			dataType:"json",
+			async:false,
 			success: function(data) {
-				if(data=="1"){
+				if(data==1){
 					if(type=="update"){
 					window.close();
 					opener.location.href="bupdate_page?b_num="+b_num+"&cur_page="+cur_page;						
 					}else if(type=="delete"){
 						window.close();
-						opener.location.href="b_delete?&b_step="+b_step+"&b_group="+b_group+"&b_num="+b_num;	
+						opener.location.href="b_delete?&b_step="+b_step+"&b_group="+b_group+"&b_num="+b_num+"&cur_page="+cur_page;	
 					}else if(type=="r_update"){
 						window.close();
 						opener.parent.r_change(r_num);

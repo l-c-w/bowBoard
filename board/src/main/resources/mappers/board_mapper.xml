@@ -11,7 +11,8 @@
 		select * 
 		from
 		(select row_number() over(order by b_group desc, b_step asc,b_date desc) as rnum, 
-		b_num, b_title, b_name,b_content, b_date, b_step, b_group, b_indent
+		b.b_num, b.b_title, b.b_name,b.b_content, b.b_date, b.b_step, b.b_group, b.b_indent,
+		(select count(*) from r_board r where b.b_num=r.b_num)as repl_count 
 		from
 		(select * from board
 		
@@ -34,7 +35,7 @@
 		where b_date between #{keyword} and #{end_date}
 		</when>
 		</choose>
-		</if>))
+		</if>) b)
 		
 		<!-- 페이지에 출력할 글 갯수  -->
 		where rnum between #{cur_page}*10-9 and #{cur_page}*10
@@ -76,7 +77,7 @@
 
  	<!-- 글쓰기 -->
 	<insert id="b_write" parameterType="com.javalec.ex.Dto.BDto">
-		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw},b_seq.currval,0,0,null)
+		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw},b_seq.currval,0,0,null,null)
 	</insert>
 	
 	<!-- 등록 전 요소 업데이트 -->
@@ -86,7 +87,7 @@
 	
 	<!-- 답변등록 -->
 	<insert id="b_reply" parameterType="com.javalec.ex.Dto.BDto">
-		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw},#{b_group},#{b_step}+1,#{b_indent}+1,null)
+		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw},#{b_group},#{b_step}+1,#{b_indent}+1,null,null)
 	</insert>
 	
 	<!-- 비밀번호 확인 -->
@@ -106,7 +107,7 @@
 	
 	<!-- 댓글이 있는 글 내용 -->
 	<delete id="br_delete">
-		update board set b_name=null, b_title=null, b_content=null,u_date=sysdate where b_num=#{b_num} 
+		update board set b_name='-', b_title='※ 삭제된 글입니다.', b_content=null,u_date=sysdate where b_num=#{b_num} 
 	</delete>
 	
 	<!-- 리플 체크 -->

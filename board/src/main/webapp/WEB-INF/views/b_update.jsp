@@ -66,8 +66,8 @@ tr{display:block;}
 	</table>
 	</form>
 	<div id="btnwrap">
-	<button onclick="update()">수정</button>
-	<button onclick="history.go(-1)">이전</button>
+	<button type="button" onclick="update()">수정</button>
+	<button type="button" onclick="history.go(-1)">이전</button>
 	</div>
 	</div>
 	

@@ -16,10 +16,12 @@ table{width: 1000px; border-collapse: collapse;}
 
 
 tr{margin-top: 10px;}
-td{text-overflow:ellipsis; overflow:hidden; white-space:nowrap; margin-top: 10px;}
+td{margin-top: 10px;}
 th{height: 30px; vertical-align: middle; padding-top: 10px;}
 .b_num{display:inline-block; float:left; width:120px; text-align: center; } 
-.b_title{display:inline-block; float:left; width:600px;  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right: 30px;}
+.b_title{display:inline-block; float:left; width:600px; word-break:break-all; }
+/* .b_title{display:inline-block; float:left; width:600px;  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right: 30px;} */
+.repl_count{color: #FF5E00; font-weight: bold; vertical-align: top;}
 .b_name{display:block; float:left; width:120px; text-align: center; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align: center;}
 .b_date{width:120px; float:left; text-align: center;}
 
@@ -70,31 +72,46 @@ th{background-color: #efefef}
 		<c:forEach var="b_list" items="${list }" varStatus="status">
 		<tr id="b_body">
 			<td class="b_num" >
+			<span>
 			<c:out value="${paging.list_count+10-(status.index+(10*paging.cur_page))}"/>  
 			</td>
 			<td class="b_title" onclick="location.href='b_view?b_num=${b_list.b_num}&cur_page=${paging.cur_page}'" style="cursor: pointer; text-align: left; ">
 			<c:choose>
 			
 			<c:when test="${not empty b_list.b_title&&b_list.b_indent==0 }">
+			<c:choose>
+			<c:when test="${not empty b_list.b_content }">
 			<c:out value="${b_list.b_title }"/>
+			
+			</c:when>
+			<c:when test="${empty b_list.b_content }">
+			<del><em><c:out value="${b_list.b_title }"/></em></del>
+			
+			</c:when>
+			</c:choose>
 			</c:when>
 			
 			<c:when test="${b_list.b_indent>0 }">
 			<c:forEach begin="1" end="${b_list.b_indent }" step="1">&nbsp&nbsp&nbsp</c:forEach>
 			<c:choose>
-			<c:when test="${not empty b_list.b_title }">
-			ㄴ
-			<c:out value="${b_list.b_title }"/>
+			<c:when test="${not empty b_list.b_content }">
+			ㄴ<c:out value="${b_list.b_title }"/>
 			
 			</c:when>
-			<c:when test="${empty b_list.b_title }">
-			<em>※ 삭제된 글입니다.</em>
+			<c:when test="${empty b_list.b_content }">
+			<del><em><c:out value="${b_list.b_title }"/></em></del>
+			
 			</c:when>
 			</c:choose>
 			</c:when>
 			
 			</c:choose>
+			
+			<c:if test="${b_list.repl_count>0 }">
+			<span class="repl_count">[${b_list.repl_count }]</span>
+			</c:if>
 			</td>
+			
 			<td class="b_name"><c:out value="${b_list.b_name }"/></td>
 			<td class="b_date">
 			<fmt:formatDate var="b_date" value="${b_list.b_date }" pattern="yy-MM-dd"/>
@@ -102,7 +119,7 @@ th{background-color: #efefef}
 			
 			<c:choose>
 			<c:when test="${today eq b_date }">
-			<fmt:formatDate value="${b_list.b_date }" pattern="hh:MM"/>
+			<fmt:formatDate value="${b_list.b_date }" pattern="HH:MM"/>
 			</c:when>
 			<c:when test="${today ne b_date }">
 			<c:out value="${b_date }"/> 
@@ -164,10 +181,10 @@ th{background-color: #efefef}
 	<input type="text" name="keyword" id="keyword">
 	</div>
 	</form>
-	<button onclick="search_check()">검색</button>
-	<button class="b_write" onclick="location.href='bwrite_page'">글쓰기</button>
+	<button type="button" onclick="search_check()">검색</button>
+	<button type="button" class="b_write" onclick="location.href='bwrite_page'">글쓰기</button>
 	<c:if test="${not empty sv.keyword }">
-		<button class="b_write" onclick="location.href='board'">전체보기</button>
+		<button type="button" class="b_write" onclick="location.href='board'">전체보기</button>
 	</c:if>
 	</div>
 	</div>

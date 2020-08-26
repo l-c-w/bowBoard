@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>${b_view.b_title} : 자유게시판</title>
 <style type="text/css">
+a{scroll-behavior: smooth;}
 #whole_wrap{width: 1000px; margin: 0 auto; margin-bottom: 100px;}
 table{width: 1000px; }
 #view_table tr{display:block; word-break:break-all; border: 1px solid #ddd; padding: 10px;}
@@ -35,6 +36,8 @@ li{width: 1000px;}
 #r_Lname{color: #2a6496; font-weight: bold; margin-right: 5px;}
 #r_date{font-size: 12px; color: grey;}
 
+.count{color: #aaa}
+
 	
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -44,14 +47,32 @@ li{width: 1000px;}
 	<h3 onclick="location.href='board'" style="cursor: pointer;" id="top">자유게시판 ></h3>
 	<table id="view_table">
 		<tr id="title">
-		<td><c:out value="${b_view.b_title }"/></td>
+		<td>
+		<c:choose>
+		<c:when test="${not empty b_view.b_content }">		
+		<c:out value="${b_view.b_title }"/>
+		</c:when>
+		<c:when test="${empty b_view.b_content }">
+		<del><em><c:out value="${b_view.b_title }"/></em></del>
+		</c:when>
+		</c:choose>
+		</td>
 		</tr>
 		<tr>
 		<td><img alt="멤버" src="resources/images/member.png" width="60px" height="40px;"> </td>
 		<td id="writer"><span id="id"><c:out value="${b_view.b_name }"/></span><br>
 		<span id="date"><fmt:formatDate value="${b_view.b_date }" pattern="yy-MM-dd"/>
 		<c:if test="${not empty b_view.u_date }">
-		<br>최근수정 <fmt:formatDate value="${b_view.u_date }" pattern="yy-MM-dd hh:mm:ss"/>
+		<br>
+		<c:choose>
+		<c:when test="${not empty b_view.b_content }">
+		최근수정 
+		</c:when>
+		<c:when test="${empty b_view.b_content }">
+		삭제일시
+		</c:when>
+		</c:choose>
+		<fmt:formatDate value="${b_view.u_date }" pattern="yy-MM-dd HH:mm:ss"/>
 		</c:if>
 		</span>
 		</td>
@@ -62,10 +83,15 @@ li{width: 1000px;}
 		</tr>
 	</table>
 	<div id="btnwrap">
-	<button onclick="location.href='bwrite_page?type=reply&b_group=${b_view.b_group}&b_step=${b_view.b_step }&b_indent=${b_view.b_indent }'">답변달기</button>
-	<button onclick="pw_check('${b_view.b_num}','${cur_page }','${b_view.b_group }','${b_view.b_step }')">수정</button>
-	<button onclick="b_delete('${b_view.b_num }','${cur_page }','${b_view.b_group }','${b_view.b_step }')">삭제</button>
-	<button onclick="location.href='board?cur_page=${cur_page}'">목록</button>
+	<c:choose>
+	<c:when test="${not empty b_view.b_content }">
+	<button type="button" onclick="location.href='bwrite_page?type=reply&b_group=${b_view.b_group}&b_step=${b_view.b_step }&b_indent=${b_view.b_indent }'">답변달기</button>
+	<button type="button" onclick="pw_check('${b_view.b_num}','${cur_page }','${b_view.b_group }','${b_view.b_step }')">수정</button>
+	<button type="button" onclick="b_delete('${b_view.b_num }','${cur_page }','${b_view.b_group }','${b_view.b_step }')">삭제</button>
+	</c:when>
+	<c:when test="${empty b_view.b_content }"></c:when>
+	</c:choose>
+	<button type="button" onclick="location.href='board?cur_page=${cur_page}'">목록</button>
 	</div>
 	
 	<div id="reply">
@@ -75,8 +101,8 @@ li{width: 1000px;}
 	<input type="hidden" name="m_num" id="m_num" value="${b_view.b_num}">
 	<table>
 	<tr>
-	<td style="width: 300px;"><label>작성자<input type="text" name="r_name" id="r_name"></label>
-	<label>비밀번호<input type="password" name="r_pw" id="r_pw"></label>
+	<td style="width: 300px;"><label>작성자&nbsp&nbsp&nbsp<input type="text" name="r_name" id="r_name"></label>&nbsp&nbsp&nbsp&nbsp&nbsp
+	<label>비밀번호&nbsp&nbsp&nbsp<input type="password" name="r_pw" id="r_pw"></label>
 	</td>
 	</tr>
 	<tr>
@@ -85,7 +111,7 @@ li{width: 1000px;}
 	</tr>
 	<tr>
 	<td>
-	0/300
+	<span id="r_content_count" class="count">(0/300)</span>
 	</td>
 	</tr>
 	</table>	
@@ -98,7 +124,7 @@ li{width: 1000px;}
 	<div id="save_point">
 	<h3><span style="color: #FF5E00; padding-left: 10px;">${r_count }</span> 개의 댓글이 달려있습니다.</h3>
 			<c:forEach var="rList" items="${r_list }">
-		<ul style="width:1010px; border-bottom: 1px solid #ddd; padding: 10px;" id="">
+		<ul style="width:1010px; border-bottom: 1px solid #ddd; padding: 10px;" id="${rList.r_num }ul">
 			<li style="height: 30px;">
 			<img alt="멤버" src="resources/images/member.png" width="30px" height="20px;">
 				<span id="${rList.r_num }r_Lname">${rList.r_name }</span>
@@ -107,7 +133,7 @@ li{width: 1000px;}
 			<span id="r_date" class="${rList.r_num }r_date">[
 			<c:choose>
 			<c:when test="${today eq r_date }">
-			<fmt:formatDate value="${rList.r_date }" pattern="hh:MM"/>
+			<fmt:formatDate value="${rList.r_date }" pattern="HH:MM"/>
 			</c:when>
 			<c:when test="${today ne r_date }">
 			<c:out value="${r_date }"/> 
@@ -116,7 +142,7 @@ li{width: 1000px;}
 			]</span>	
 			</li>
 			<div id="${rList.r_num }">
-			<li style="margin-bottom: 10px;" id="${rList.r_num }r_content">${rList.r_content }</li>
+			<li style="margin-bottom: 10px; width: 1000px; word-break:break-all;" id="${rList.r_num }r_content">${rList.r_content }</li>
 			<li  style="width:1030px; height:20px; margin-left: 920px;">
 				<button class="btn" type="button" onclick="rpw_check('${rList.r_num }')">수정</button>
 				<button class="btn" type="button" onclick="r_delete('${rList.r_num }')">삭제</button>
@@ -131,6 +157,55 @@ li{width: 1000px;}
 		<a href="#top"><img alt="최상단으로" src="resources/images/go_top.png" style="width: 100px; height: 100px;"> </a>
 	</div>
 	<script>
+		$(document).ready(function() {
+			
+			$("#r_name").on("input",function() {
+				var content = $(this).val();
+				if(content.length>10){
+					alert("작성자명은 최대 10자까지 입력가능합니다.");
+					$(this).val($(this).val().substring(0, 10));
+					$(this).focus();
+				}	
+			});
+			
+			$("#r_pw").on("input",function() {
+				var content = $(this).val();
+				if(content.length>10){
+					alert("비밀번호는 최대 10자까지 입력가능합니다.");
+					$(this).val($(this).val().substring(0, 10));
+					$(this).focus();
+				}	
+			});
+			
+			$("#r_content").on("input",function() {
+				var content = $(this).val();
+				$("#r_content_count").html("<span id='r_content_count' class='count'>("+content.length+"/300)</span>");
+				if(content.length>300){
+					alert("본문은 최대 300자까지 입력가능합니다.");
+					$(this).val($(this).val().substring(0, 300));
+					$(this).focus();
+					$("#r_content_count").html("<span id='r_content_count' class='count'>(300/300)</span>");
+				}	
+			});
+			
+			$("#ru_content").on("input",function() {
+				var content = $(this).val();
+				$("#ru_content_count").html("<span id='ru_content_count' class='count'>("+content.length+"/300)</span>");
+				if(content.length>300){
+					alert("본문은 최대 300자까지 입력가능합니다.");
+					$(this).val($(this).val().substring(0, 300));
+					$(this).focus();
+					$("#ru_content_count").html("<span id='ru_content_count' class='count'>(300/300)</span>");
+				}	
+			});
+			
+			$("a[href='#top']").click(function() {
+				$("html").animate({scrollTop:0},"slow");
+				return false;
+			});
+			
+		});
+	
 		//본글 수정 비밀번호 체크
 		function pw_check(b_num,cur_page,b_group,b_step) {
 			
@@ -159,30 +234,62 @@ li{width: 1000px;}
 				return;
 			}
 		}
+		
 		//댓글 등록
 		function r_check() {
-			var r_data = $("form[name=r_write]").serialize();
 			
-			$.ajax({
-				type:"post",
-				url:"r_write",
-				data:r_data,
-				success: function(data) {
-					if(data==1){
-						alert("댓글이 등록되었습니다.");
-						window.location.reload();
-						$(window).scrollTop($("#save_point").offset().top);
-					}else{
-						alert("작성에 실패했습니다.");
-					}
-				},
-				error: function() {
-					alert("통신실패");
-				}
+			if($("#r_name").val().replace(/ /g, '').length==0){
+				$("#r_name").val('');
+				alert("작성자를 입력해주세요.");
+				$("#r_name").focus();
+				return;
+			}
+			
+			if($("#r_pw").val().replace(/ /g, '').length==0){
+				$("#r_pw").val('');
+				alert("비밀번호를 입력해주세요");
+				$("#r_pw").focus();
+				return;
+			}
+			
+			var pw_check=/^[A-Za-z0-9+]*$/; 
+			
+			if(!(pw_check.test(r_write.r_pw.value))){
+				alert("비밀번호는 영문/숫자만 입력가능합니다.");
+				$("#r_pw").focus();
+				return;
+			}
+			
+			if($("#r_content").val().replace(/ /g, '').length==0){
+				$("#r_content").val('');
+				alert("내용을 입력해주세요.");
+				$("#r_content").focus();
+				return;
+			}else{
+				var r_data = $("form[name=r_write]").serialize();
 				
-			});
-			
-		}
+				$.ajax({
+					type:"post",
+					url:"r_write",
+					data:r_data,
+					success: function(data) {
+						if(data==1){
+							alert("댓글이 등록되었습니다.");
+							window.location.reload();
+							$(window).scrollTop($("#save_point").offset().top);
+						}else{
+							alert("작성에 실패했습니다.");
+						}
+					},
+					error: function() {
+						alert("통신실패");
+					}
+					
+				});
+					
+			}
+							}
+		
 	
 	//댓글 수정 비밀번호 체크
 	function rpw_check(r_num) {
@@ -204,24 +311,43 @@ li{width: 1000px;}
 	//수정창으로 변경
 	function r_change(r_num) {
 		
+		$("#reply_write").hide();
 		$(".btn").hide();
 		var r_num_id="#"+r_num;
 		var r_content_id= "#"+r_num+"r_content";		
 		var r_content = $(r_content_id).text();
+		var r_c_length = r_content.length;
+		
+		
 		
 		
 		var html='<textarea name="ru_content" id="ru_content" rows="5" cols="138" style="margin-bottom:5px;">'+r_content+'</textarea>'
+					+'<span id="ru_content_count" class="count">('+r_c_length+'/300)</span>'
 					+'<li  style="width:1030px; height:20px; margin-left: 920px;">'
 					+'<button type="button" onclick="r_update('+r_num+')" style="margin-right:5px;">확인</button>'
 					+'<button type="button" onclick="go_back()">취소</button>'
 					+'</li>';		
 					
 		$(r_num_id).html(html);
+		
+		$("#ru_content").on("input",function() {
+			var content = $(this).val();
+			$("#ru_content_count").html("<span id='ru_content_count' class='count'>("+content.length+"/300)</span>");
+			if(content.length>300){
+				alert("본문은 최대 300자까지 입력가능합니다.");
+				$(this).val($(this).val().substring(0, 300));
+				$(this).focus();
+				$("#ru_content_count").html("<span id='ru_content_count' class='count'>(300/300)</span>");
+			}	
+		});
 			
 	}
 	
 	//댓글 삭제 비밀번호 체크
 	function r_delete(r_num) {
+		
+		
+		
 		
 		var del_check= confirm("댓글을 삭제하시겠습니까?");
 		
@@ -235,10 +361,19 @@ li{width: 1000px;}
 			return;
 		}
 		
+	
+		
 			
 	}
 	//리플 수정
 	 function r_update(r_num) {
+		var ul_id = "#"+r_num+"ul";
+		 if($("#ru_content").val().replace(/ /g, '').length==0){
+				$("#ru_content").val('');
+				alert("내용을 입력해주세요.");
+				$("#ru_content").focus();
+				return;
+			}else{
 		var r_content =$("#ru_content").val();
 		
 		   $.ajax({
@@ -246,12 +381,13 @@ li{width: 1000px;}
 			url:"r_update",
 			data:{"r_num":r_num,"r_content":r_content},
 			success: function(data) {
-				document.location.reload(true);
+				document.location.reload(true);f
 			},error: function () {
 				alert("통신실패");
 			}
 			
-		}); 	 
+		}); 
+			}
 		
 	}
 	
