@@ -62,13 +62,17 @@
 			ref="sqlSessionFactory"></beans:constructor-arg>
 	</beans:bean>
 	
-		<!-- MultipartResolver 설정 -->
-<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-  <beans:property name="maxUploadSize" value="100000000" />
-  <beans:property name="maxInMemorySize" value="100000000" />
-  
-  
-</beans:bean>
+	<!-- MultipartResolver 설정 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	  <beans:property name="maxUploadSize" value="100000000" />
+	  <beans:property name="maxInMemorySize" value="100000000" />	  
+	</beans:bean>
+	<!-- upload path -->	  
+	<!-- <beans:bean id="uploadPath" class="java.lang.String">
+		<beans:constructor-arg value="C:\Users\arang\eclipse-workspace\board_formal\src\main\webapp\upload\"/>
+	</beans:bean> -->
+
+	
 		
 		</beans:beans>
 		

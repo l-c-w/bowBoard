@@ -1,5 +1,6 @@
 package com.javalec.ex.Service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.javalec.ex.Dao.BDao;
 import com.javalec.ex.Dto.BDto;
@@ -58,8 +61,31 @@ public class BServiceImpl implements BService {
 
 	//글쓰기
 	@Override
-	public int b_write(BDto bDto) throws Exception {
+	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest) throws Exception {
+		//저장경로
+		String path = "C:/Users/arang/Documents/GitHub/board/board/src/main/webapp/upload/";
+	
+		//파일 받아오기
+		List<MultipartFile> file_list = mprequest.getFiles("files");
 		
+		for (MultipartFile mf : file_list) {
+			if(mf.getOriginalFilename()!=null) {
+				
+			String originalName = mf.getOriginalFilename();
+			
+			//난수 설정
+			UUID uuid = UUID.randomUUID();
+			
+			String file_name = uuid.toString()+"_"+originalName;
+			
+			System.out.println("파일이름:"+file_name);
+			
+			mf.transferTo(new File(path+file_name));
+			bDto.setB_files(bDto.getB_files()+file_name);
+			};
+		}
+		
+		System.out.println(bDto.getB_files());
 		return bDao.b_write(bDto);
 	}
 	

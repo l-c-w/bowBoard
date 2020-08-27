@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.javalec.ex.Dto.BDto;
 import com.javalec.ex.Dto.RDto;
@@ -63,18 +64,18 @@ public class BController {
 		return "b_write";
 	}
 	
-	//글 등록
-	@RequestMapping("b_write")
-	public String b_write (BDto bDto)throws Exception {
-		bService.b_write(bDto);
-		return "redirect:board";
-	}
-	
 	//답변등록
 	@RequestMapping("b_reply")
 	public String b_reply(BDto bDto,HttpServletRequest request)throws Exception {
 		bService.stepup(request);
 		bService.b_reply(bDto, request);
+		return "redirect:board";
+	}
+
+	//글 등록
+	@RequestMapping("b_write")
+	public String b_write (BDto bDto,MultipartHttpServletRequest mprequest)throws Exception {
+		bService.b_write(bDto, mprequest);
 		return "redirect:board";
 	}
 	

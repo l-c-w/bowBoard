@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.javalec.ex.Dto.BDto;
 import com.javalec.ex.Dto.PagingDto;
@@ -27,7 +28,7 @@ public interface BService {
 	public BDto b_view(HttpServletRequest request) throws Exception;
 	
 	//글쓰기
-	public int b_write(BDto bDto) throws Exception;
+	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest) throws Exception;
 	
 	//답변작성
 	public int b_reply(BDto bDto,HttpServletRequest request)throws Exception;

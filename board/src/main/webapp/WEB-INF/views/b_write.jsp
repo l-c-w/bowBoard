@@ -20,6 +20,9 @@
 	#btn_wrap{width:500px; text-align: center;}
 	.count{color: #aaa}
 	.checking{font-size: 14px; color: red;}
+	
+	.files{margin-bottom: 5px;}
+	.cancle{width: 10px; height: 10px; cursor: pointer;}
 	</style>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -34,7 +37,7 @@
 		<h1>답변 작성</h1>
 		</c:when>
 	</c:choose>
-	<form action="b_write" method="post" name="b_write">
+	<form action="b_write" method="post" name="b_write" enctype="multipart/form-data">
 		<label for="b_title">제목</label><br><input type="text" name="b_title" id="b_title" class="all_check" placeholder="제목을 입력하세요.">
 		<br>
 		<span id="title_check" class="checking"></span>
@@ -60,6 +63,14 @@
 		<span id="content_count" class="count">0/2000자</span>
 		<span id="content_check" class="checking"></span>
 		
+		<div id="input_file">
+		</div>
+		
+		<div id="select_file">
+		<input type="file" name="files" id="file1" class="files"><br>
+		</div>
+		
+		
 	</form>
 	<div id="btn_wrap">
 	<c:choose>
@@ -79,7 +90,10 @@
 	<script>
 		$(document).ready(function() {
 			
+		$(".cancle").hide();	
 			
+		
+		
 			
 		$("#b_title").on("input",function() {
 				var content = $(this).val();
@@ -121,6 +135,15 @@
 			});
 			
 		});
+		
+		
+		
+		function remove_file(get_class) {
+			var remove_id="#"+get_class;
+			var remove_class="."+get_class;
+			$(remove_id).remove();
+			$(remove_class).remove();
+		}
 			
 			
 		function write_check(type,b_group,b_step,b_indent) {
@@ -179,6 +202,24 @@
 				
 			}
 		}
+		
+		$(documnet).on("change",".files",function() {
+			//id값 셋팅
+			var get_id= $(this).attr("id");
+			var set_num= (get_id.substring(4, 5)*1)+1;
+			var set_id= "file"+set_num;
+			
+			//파일명 가져오기
+			var fileValue=$(this).val().split("\\");
+			var fileName=fileValue[fileValue.length-1];
+			
+			$(this).css("display","none");
+			$("#input_file").append('<span class='+get_id+'>'+fileName+'</span><button class='+get_id+' type="button" onclick="remove_file(`'+get_id+'`)"><img class="cancle" alt="취소" src="resources/images/cancle.png"></button>');
+			$("#select_file").append('<input type="file" name="files" id='+set_id+' class="files">');
+			
+			
+			
+		});
 	
 	</script>
 </body>
