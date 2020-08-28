@@ -17,12 +17,14 @@
 	#b_pw{vertical-align: top; border:none; border-bottom: 2px solid black;}
 	#notice{font-size: 12px; color: #666}
 	#pw_wrap{height: 50px; padding: 0px;}
-	#btn_wrap{width:500px; text-align: center;}
+	#btn_wrap{width:500px; text-align: center; margin-bottom: 100px;}
 	.count{color: #aaa}
 	.checking{font-size: 14px; color: red;}
 	
 	.files{margin-bottom: 5px;}
-	.cancle{width: 10px; height: 10px; cursor: pointer;}
+	.input_files{width: 500px;}
+	#select_file button{width: 10px; height: 10px;}
+	.cancle{width: 15px; height: 15px; cursor: pointer; margin-left: 5px;}
 	</style>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -67,7 +69,7 @@
 		</div>
 		
 		<div id="select_file">
-		<input type="file" name="files" id="file1" class="files"><br>
+		<input type="file" name="files" id="file1" class="files" onclick="upload_count()" onchange="after_input(this.id)"><br>
 		</div>
 		
 		
@@ -203,23 +205,35 @@
 			}
 		}
 		
-		$(documnet).on("change",".files",function() {
+				
+		
+		function after_input(this_id) {
+			
+			if($("input[name='files']").length>5){
+				alert("파일 업로드는 5개까지 가능합니다.");
+				return;
+			}
+			
 			//id값 셋팅
-			var get_id= $(this).attr("id");
-			var set_num= (get_id.substring(4, 5)*1)+1;
+			var set_num= (this_id.substring(4, 5)*1)+1;
 			var set_id= "file"+set_num;
 			
+			
+			
 			//파일명 가져오기
-			var fileValue=$(this).val().split("\\");
+			var file_id="#"+this_id;
+			var fileValue=$(file_id).val().split("\\");
+			
 			var fileName=fileValue[fileValue.length-1];
 			
-			$(this).css("display","none");
-			$("#input_file").append('<span class='+get_id+'>'+fileName+'</span><button class='+get_id+' type="button" onclick="remove_file(`'+get_id+'`)"><img class="cancle" alt="취소" src="resources/images/cancle.png"></button>');
-			$("#select_file").append('<input type="file" name="files" id='+set_id+' class="files">');
+			
+			$(file_id).css("display","none");
+			$("#input_file").append('<div class='+this_id+'><span>'+fileName+'</span><label class="input_files"><button type="button" onclick="remove_file(`'+this_id+'`)" style="display: none;"></button><img class="cancle" alt="취소" src="resources/images/cancle.png"></label><br></div>');
+			$("#select_file").append('<input type="file" name="files" id='+set_id+' class="files" onchange="after_input(this.id)" >');
 			
 			
 			
-		});
+		}
 	
 	</script>
 </body>

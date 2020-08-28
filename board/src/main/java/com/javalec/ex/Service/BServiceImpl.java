@@ -1,12 +1,21 @@
 package com.javalec.ex.Service;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
@@ -55,21 +64,26 @@ public class BServiceImpl implements BService {
 	//글 한개 가져오기
 	@Override
 	public BDto b_view(HttpServletRequest request) throws Exception {
-		int b_num = Integer.parseInt(request.getParameter("b_num")); 
-		return bDao.b_view(b_num);
+		int b_num = Integer.parseInt(request.getParameter("b_num"));
+		BDto bDto = bDao.b_view(b_num);
+		
+		return bDto;
 	}
 
 	//글쓰기
 	@Override
 	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest) throws Exception {
 		//저장경로
-		String path = "C:/Users/arang/Documents/GitHub/board/board/src/main/webapp/upload/";
+		String path = "C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
 	
+		String upload_files="";
+		String upload_names="";
+		
 		//파일 받아오기
 		List<MultipartFile> file_list = mprequest.getFiles("files");
 		
 		for (MultipartFile mf : file_list) {
-			if(mf.getOriginalFilename()!=null) {
+			if(!mf.getOriginalFilename().equals("")) {
 				
 			String originalName = mf.getOriginalFilename();
 			
@@ -78,15 +92,87 @@ public class BServiceImpl implements BService {
 			
 			String file_name = uuid.toString()+"_"+originalName;
 			
-			System.out.println("파일이름:"+file_name);
-			
 			mf.transferTo(new File(path+file_name));
-			bDto.setB_files(bDto.getB_files()+file_name);
+			
+			upload_files+= file_name+"*";
+			upload_names+= originalName+"*";			
 			};
 		}
+		bDto.setB_files(upload_files);
+		bDto.setB_file_names(upload_names);
 		
-		System.out.println(bDto.getB_files());
 		return bDao.b_write(bDto);
+	}
+	
+	//파일 다운로드
+	@Override
+	public void file_down(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//저장 경로
+		String path="C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		//저장되어 있는 파일의 경로
+		String realPath = path+request.getParameter("full_name");
+		//업로드 당시 원래 파일의 이름
+		String fileName =request.getParameter("ori_name");
+		
+		System.out.println("경로:"+realPath);
+		System.out.println("파일이름:" +fileName);
+		
+		
+		//실제 경로
+		File file = new File(realPath);
+		
+		FileInputStream fis = null;
+		ServletOutputStream sos = null;
+		
+		//브라우저에 따른 파일 인코딩
+		try {
+			String downName=null;
+			//헤더에서 브라우저 정보 가져오기
+			String browser = request.getHeader("User-Agent");
+			System.out.println("브라우저:"+browser);
+			
+			if (browser.contains("MSIE") || browser.contains("Trident") || browser.contains("Chrome")) {
+				 downName = URLEncoder.encode(fileName,"UTF-8").replaceAll("\\+", "%20");
+			}else {
+				downName = new String(fileName.getBytes("UTF-8"),"ISO-8859-1");
+			}
+			
+			 response.setHeader("Content-Disposition","attachment;filename=\"" + downName+"\"");             
+		     response.setContentType("application/octer-stream");
+		     response.setHeader("Content-Transfer-Encoding", "binary;");
+			
+			fis = new FileInputStream(file);
+			sos = response.getOutputStream(); 
+			
+			 byte b [] = new byte[1024];
+		     int data = 0;
+			
+			while((data=(fis.read(b, 0, b.length))) != -1){
+	            
+	            sos.write(b, 0, data);
+			}
+			
+			sos.flush();
+	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			if(sos!=null){
+	            try{
+	                sos.close();
+	            }catch (IOException e){
+	                e.printStackTrace();
+	            }
+	        }
+	        if(fis!=null){
+	            try{
+	                fis.close();
+	            }catch (IOException e){
+	                e.printStackTrace();
+	            }
+	        }
+		}
+		
 	}
 	
 	//답변 등록
@@ -191,6 +277,8 @@ public class BServiceImpl implements BService {
 		
 		return bDao.r_delete(r_num);
 	}
+
+	
 
 	
 

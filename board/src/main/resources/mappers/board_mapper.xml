@@ -77,7 +77,7 @@
 
  	<!-- 글쓰기 -->
 	<insert id="b_write" parameterType="com.javalec.ex.Dto.BDto">
-		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw},b_seq.currval,0,0,null,null)
+		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw},b_seq.currval,0,0,null,null,#{b_files},#{b_file_names})
 	</insert>
 	
 	<!-- 등록 전 요소 업데이트 -->

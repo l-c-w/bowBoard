@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="now" class="java.util.Date"/>
 <!DOCTYPE html>
 <html>
@@ -78,8 +79,22 @@ li{width: 1000px;}
 		</td>
 		
 		</tr>
+		
 		<tr>
 		<td id="content"><pre><c:out value="${b_view.b_content }"/></pre></td>
+		</tr>
+		
+		<tr>
+		<c:set var="files" value="${fn:split(b_view.b_files,'*') }"/>
+		<c:set var="file_names" value="${fn:split(b_view.b_file_names,'*') }"/>
+		<td><h3>첨부파일<span style="color: #FF5E00;">(${fn:length(files) })</span></h3>
+		<c:forEach var="files1" items="${files }" varStatus="status">
+			<div>
+				<label style="margin-right: 10px; cursor: pointer;"><button type="button" onclick="download('${file_names[status.index] }','${files1 }')" style="display: none;"></button>
+				<img src="resources/images/download.png" width="20px" height="20px" >
+				${file_names[status.index] }</label></div><br>
+		</c:forEach>
+		</td>
 		</tr>
 	</table>
 	<div id="btnwrap">
@@ -381,7 +396,7 @@ li{width: 1000px;}
 			url:"r_update",
 			data:{"r_num":r_num,"r_content":r_content},
 			success: function(data) {
-				document.location.reload(true);f
+				document.location.reload(true);
 			},error: function () {
 				alert("통신실패");
 			}
@@ -395,7 +410,12 @@ li{width: 1000px;}
 		document.location.reload(true);
 	}
 	
-	
+	//파일 다운로드
+	function download(ori_name,full_name) {
+		
+		location.href = "file_down?full_name="+full_name+"&ori_name="+ori_name;
+		
+	}
 	
 	</script>
 	

@@ -1,9 +1,15 @@
 package com.javalec.ex.Controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 import javax.inject.Inject;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -50,6 +56,13 @@ public class BController {
 		model.addAttribute("r_list",bService.r_list(request));
 		
 		return "b_view";
+	}
+	
+	//파일 다운로드
+	@RequestMapping("file_down")
+	@ResponseBody
+	public void file_down(HttpServletRequest request, HttpServletResponse response)throws Exception {
+		bService.file_down(request, response);
 	}
 	
 	//글 등록 페이지로 이동

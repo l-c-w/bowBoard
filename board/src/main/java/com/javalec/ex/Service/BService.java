@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public interface BService {
 	
 	//글쓰기
 	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest) throws Exception;
+	
+	//파일 다운로드
+	public void file_down(HttpServletRequest request,HttpServletResponse response)throws Exception;
 	
 	//답변작성
 	public int b_reply(BDto bDto,HttpServletRequest request)throws Exception;
