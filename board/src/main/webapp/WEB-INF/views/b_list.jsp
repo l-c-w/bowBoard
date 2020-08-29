@@ -57,6 +57,15 @@ th{background-color: #efefef}
 		</c:choose>
 	</c:if>
 	
+	<!-- 엑셀저장 -->
+	
+	<select name="excel_type" id="excel_type">
+	<option value="all_page">전체 페이지</option>
+	<option value="now_page">현재 페이지</option>
+	</select>
+	<button type="button" name="excel" onclick="to_excel('${paging.cur_page}','${sv.keyword}')">엑셀파일로 저장</button>
+	
+	<hr>
 	<table>
 		
 		<tr>
@@ -65,7 +74,7 @@ th{background-color: #efefef}
 			<th class="b_name">작성자</th>
 			<th class="b_date">작성일</th>	
 		</tr>
-		<hr>
+		
 		
 		<fmt:formatDate var="today" value="${now }" pattern="yy-MM-dd" />
 
@@ -219,7 +228,19 @@ th{background-color: #efefef}
 				document.search.submit();
 			}
 		}
+		
+		function to_excel(cur_page,keyword) {
+			
+			var excel_type=$("#excel_type").val();
+			
+			location.href='board_excel?cur_page'+cur_page+'&keyword='+keyword+'&excel_type='+excel_type; 
+			
+			
+		}
+		
 	</script>
+	
+	
 	
 </body>
 </html>

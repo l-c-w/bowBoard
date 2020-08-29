@@ -46,6 +46,14 @@ public class BController {
 		return "b_list";
 	}
 	
+	//엑셀로 저장하기
+	@RequestMapping("board_excel")
+	public void board_excel(SearchingDto searchingDto,HttpServletRequest request, HttpServletResponse response) {
+			System.out.println(searchingDto.getCur_page());
+			System.out.println(searchingDto.getKeyword());
+			System.out.println(request.getParameter("excel_type"));
+	}
+	
 	//글 상세보기
 	@RequestMapping("b_view")
 	public String b_view(HttpServletRequest request, Model model)throws Exception {
