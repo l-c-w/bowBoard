@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +24,11 @@ tr{display:block;}
 .count{color: #aaa}
 #btnwrap{float: right; margin-top: 10px;}
 .checking{font-size: 14px; color: red;}
+
+.files{margin-bottom: 5px;}
+	.input_files{width: 500px;}
+	#select_file button{width: 10px; height: 10px;}
+	.cancle{width: 15px; height: 15px; cursor: pointer; margin-left: 5px;}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -31,7 +37,7 @@ tr{display:block;}
 	<div id="whole_wrap">
 		<h3 onclick="location.href='board'" style="cursor: pointer;">자유게시판 ></h3>
 		<h1>글수정</h1>
-	<form action="b_update" method="post" name="b_update">
+	<form action="b_update" method="post" name="b_update" enctype="multipart/form-data">
 	<table>
 		<input type="hidden" value="${b_view.b_num }" name="b_num">
 		<input type="hidden" value="${cur_page }" name="cur_page">
@@ -56,13 +62,37 @@ tr{display:block;}
 		<textarea rows="10" cols="100" name="b_content" id="b_content">${b_view.b_content }</textarea>
 		<span id="content_count" class="count">0/2000자</span>
 		<span id="content_check" class="checking"></span>
-		
-		
-		
-		
-		
 		</td>
 		</tr>
+		<tr>
+		<td>
+		<c:choose>
+		<c:when test="${empty b_view.b_files }">
+		<h3>첨부파일<span style="color: #FF5E00;" id="file_count">(0)</span></h3>
+		<div id="input_file">
+		</div>
+		</c:when>
+		<c:when test="${not empty b_view.b_files }">
+		<c:set var="file_names" value="${fn:split(b_view.b_file_names,'*') }"/>
+		<h3>첨부파일<span style="color: #FF5E00;" id="file_count">(${fn:length(file_names) })</span><span style="font-size: 14px;" >&nbsp&nbsp※최대 5개</span></h3>
+		
+			<div id="input_file">
+		<c:forEach var="files1" items="${file_names }" varStatus="status">
+				<div class="file${status.index+1 }"><span class="files">${files1 }</span>
+				<label class="input_files"><button type="button" onclick="remove_file('file${status.index+1 }')" style="display: none;"></button>
+				<img class="cancle" alt="취소" src="resources/images/cancle.png"></label><br>
+		</c:forEach>
+		</c:when>		
+		</c:choose>
+			</div>
+		
+		</div>
+		<div id="select_file">
+		<input type="file" name="files" id="file${fn:length(file_names)+1 }" class="files" onchange="after_input(this.id)"><br>
+		</div>
+		</td>
+		</tr>
+		
 	</table>
 	</form>
 	<div id="btnwrap">
@@ -123,6 +153,47 @@ tr{display:block;}
 				return;
 			}
 		}
+			
+			function remove_file(get_class) {
+				var remove_id="#"+get_class;
+				var remove_class="."+get_class;
+				$(remove_id).remove();
+				$(remove_class).remove();
+				 $("#file_count").html('('+($(".files").length-1)+')');
+			}
+			
+			function after_input(this_id) {
+				
+				$("#file_count").html('('+$(".files").length+')');
+				
+				//id값 셋팅
+				var thisId= "#"+this_id;
+				var set_num= (this_id.substring(4, 5)*1)+1;
+				var set_id= "file"+set_num;
+				
+				
+				if($(".files").length>5){
+					alert("파일 업로드는 5개까지 가능합니다.");
+					$("#file_count").html('(5)');
+					$(thisId).val("");
+					return;
+				}
+				
+								
+				//파일명 가져오기
+				var file_id="#"+this_id;
+				var fileValue=$(file_id).val().split("\\");
+				
+				var fileName=fileValue[fileValue.length-1];
+				
+				
+				$(file_id).css("display","none");
+				$("#input_file").append('<div class='+this_id+'><span>'+fileName+'</span><label class="input_files"><button type="button" onclick="remove_file(`'+this_id+'`)" style="display: none;"></button><img class="cancle" alt="취소" src="resources/images/cancle.png"></label><br></div>');
+				$("#select_file").append('<input type="file" name="files" id='+set_id+' class="files" onchange="after_input(this.id)" >');
+				
+				
+				
+			}
 	
 	
 	</script>

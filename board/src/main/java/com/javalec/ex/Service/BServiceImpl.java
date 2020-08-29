@@ -67,6 +67,8 @@ public class BServiceImpl implements BService {
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
 		BDto bDto = bDao.b_view(b_num);
 		
+		System.out.println(bDto.getB_file_names());
+		
 		return bDto;
 	}
 
@@ -74,8 +76,8 @@ public class BServiceImpl implements BService {
 	@Override
 	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest) throws Exception {
 		//저장경로
-		String path = "C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
-	
+		//String path = "C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
 		String upload_files="";
 		String upload_names="";
 		
@@ -108,7 +110,8 @@ public class BServiceImpl implements BService {
 	@Override
 	public void file_down(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//저장 경로
-		String path="C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		//String path="C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
 		//저장되어 있는 파일의 경로
 		String realPath = path+request.getParameter("full_name");
 		//업로드 당시 원래 파일의 이름
@@ -217,7 +220,36 @@ public class BServiceImpl implements BService {
 
 	//글수정
 	@Override
-	public int b_update(BDto bDto) throws Exception {
+	public int b_update(BDto bDto,MultipartHttpServletRequest mprequest) throws Exception {
+		//저장경로
+		//String path = "C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		String upload_files="";
+		String upload_names="";
+		
+		//파일 받아오기
+		List<MultipartFile> file_list = mprequest.getFiles("files");
+		
+		for (MultipartFile mf : file_list) {
+			if(!mf.getOriginalFilename().equals("")) {
+				
+			String originalName = mf.getOriginalFilename();
+			
+			//난수 설정
+			UUID uuid = UUID.randomUUID();
+			
+			String file_name = uuid.toString()+"_"+originalName;
+			
+			mf.transferTo(new File(path+file_name));
+			
+			upload_files+= file_name+"*";
+			upload_names+= originalName+"*";
+			
+			
+			};
+		}
+		bDto.setB_files(upload_files);
+		bDto.setB_file_names(upload_names);
 		
 		return bDao.b_update(bDto);
 	}

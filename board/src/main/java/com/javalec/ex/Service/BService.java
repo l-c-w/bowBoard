@@ -44,7 +44,7 @@ public interface BService {
 	public int pw_ok(HttpServletRequest request)throws Exception;
 	
 	//글수정
-	public int b_update(BDto bDto)throws Exception;
+	public int b_update(BDto bDto, MultipartHttpServletRequest mprequest)throws Exception;
 	
 	//글삭제(답변글 포함)
 	public int b_delete(BDto bDto)throws Exception;

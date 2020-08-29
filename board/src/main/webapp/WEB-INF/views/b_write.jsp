@@ -65,11 +65,12 @@
 		<span id="content_count" class="count">0/2000자</span>
 		<span id="content_check" class="checking"></span>
 		
+		<h3>첨부파일<span style="color: #FF5E00;" id="file_count">(0)</span><span style="font-size: 14px;" >&nbsp&nbsp※최대 5개</span></h3>
 		<div id="input_file">
 		</div>
 		
 		<div id="select_file">
-		<input type="file" name="files" id="file1" class="files" onclick="upload_count()" onchange="after_input(this.id)"><br>
+		<input type="file" name="files" id="file1" class="files"  onchange="after_input(this.id)"><br>
 		</div>
 		
 		
@@ -138,15 +139,6 @@
 			
 		});
 		
-		
-		
-		function remove_file(get_class) {
-			var remove_id="#"+get_class;
-			var remove_class="."+get_class;
-			$(remove_id).remove();
-			$(remove_class).remove();
-		}
-			
 			
 		function write_check(type,b_group,b_step,b_indent) {
 			
@@ -205,12 +197,24 @@
 			}
 		}
 		
-				
+		function remove_file(get_class) {
+			var remove_id="#"+get_class;
+			var remove_class="."+get_class;
+			$(remove_id).remove();
+			$(remove_class).remove();
+			 $("#file_count").html('('+($(".files").length-1)+')');
+		}	
 		
 		function after_input(this_id) {
 			
+			var thisId= "#"+this_id;
+			
+			$("#file_count").html('('+$(".files").length+')');
+			
 			if($("input[name='files']").length>5){
 				alert("파일 업로드는 5개까지 가능합니다.");
+				$("#file_count").html('(5)');
+				$(thisId).val("");
 				return;
 			}
 			

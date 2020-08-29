@@ -123,10 +123,10 @@ public class BController {
 	
 	//글 수정하기
 	@RequestMapping("b_update")
-	public String b_update(BDto bDto,HttpServletRequest request)throws Exception {
+	public String b_update(BDto bDto,MultipartHttpServletRequest mprequest)throws Exception {
 		int b_num=bDto.getB_num();
-		String cur_page = request.getParameter("cur_page");
-		bService.b_update(bDto);
+		String cur_page = mprequest.getParameter("cur_page");
+		bService.b_update(bDto ,mprequest);
 		return "redirect:b_view?b_num="+b_num+"&cur_page="+cur_page;
 	}
 	

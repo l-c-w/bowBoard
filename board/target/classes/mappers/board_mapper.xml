@@ -97,7 +97,7 @@
 	
 	<!-- 글 수정하기 -->
 	<update id="b_update" parameterType="com.javalec.ex.Dto.BDto">
-		update board set b_title=#{b_title}, b_content=#{b_content},u_date=sysdate where b_num=#{b_num}
+		update board set b_title=#{b_title}, b_content=#{b_content},u_date=sysdate,b_files=#{b_files},b_file_names=#{b_file_names} where b_num=#{b_num}
 	</update>
 	
 	<!-- 글 삭제하기 -->

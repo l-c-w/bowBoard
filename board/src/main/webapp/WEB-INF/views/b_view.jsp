@@ -85,6 +85,11 @@ li{width: 1000px;}
 		</tr>
 		
 		<tr>
+		<c:choose>
+		<c:when test="${empty b_view.b_files }">
+		<td><h3>첨부파일<span style="color: #FF5E00;">(0)</span></h3>
+		</c:when>
+		<c:when test="${not empty b_view.b_files }">
 		<c:set var="files" value="${fn:split(b_view.b_files,'*') }"/>
 		<c:set var="file_names" value="${fn:split(b_view.b_file_names,'*') }"/>
 		<td><h3>첨부파일<span style="color: #FF5E00;">(${fn:length(files) })</span></h3>
@@ -94,6 +99,8 @@ li{width: 1000px;}
 				<img src="resources/images/download.png" width="20px" height="20px" >
 				${file_names[status.index] }</label></div><br>
 		</c:forEach>
+		</c:when>
+		</c:choose>
 		</td>
 		</tr>
 	</table>
