@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -22,6 +23,12 @@ public interface BService {
 	//글 리스트 가져요기
 	public List<BDto> b_list(SearchingDto searchingDto) throws Exception;
 	
+	//엑셀로 저장
+	public SXSSFWorkbook board_excel(List<BDto> list)throws Exception;
+	
+	//엑셀로 변환 
+	public SXSSFWorkbook excelFileDownloadProcess(List<BDto> list)throws Exception;
+	
 	//글 페이징요소
 	public PagingDto b_paging(SearchingDto searchingDto) throws Exception;
 	
@@ -29,13 +36,13 @@ public interface BService {
 	public BDto b_view(HttpServletRequest request) throws Exception;
 	
 	//글쓰기
-	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest) throws Exception;
+	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest,String write_type) throws Exception;
 	
 	//파일 다운로드
 	public void file_down(HttpServletRequest request,HttpServletResponse response)throws Exception;
 	
 	//답변작성
-	public int b_reply(BDto bDto,HttpServletRequest request)throws Exception;
+	public int b_reply(BDto bDto,MultipartHttpServletRequest mprequest)throws Exception;
 	
 	//등록 전 요소 업데이트
 	public int stepup(HttpServletRequest request)throws Exception;

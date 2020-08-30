@@ -12,6 +12,9 @@ public class SearchingDto {
 	//날짜 검색용 추가
 	private String end_date;
 	
+	//엑셀 다운용 추가
+	private String excel_type;
+	
 	
 	
 	public int getCur_page() {
@@ -38,6 +41,14 @@ public class SearchingDto {
 	public void setEnd_date(String end_date) {
 		this.end_date = end_date;
 	}
+	public String getExcel_type() {
+		return excel_type;
+	}
+	public void setExcel_type(String excel_type) {
+		this.excel_type = excel_type;
+	}
+	
+	
 	
 	
 }

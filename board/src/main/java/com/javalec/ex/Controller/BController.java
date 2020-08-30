@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.ServletOutputStream;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.javalec.ex.Dto.BDto;
+import com.javalec.ex.Dto.ExcelDownload;
 import com.javalec.ex.Dto.RDto;
 import com.javalec.ex.Dto.SearchingDto;
 import com.javalec.ex.Service.BService;
@@ -48,10 +53,20 @@ public class BController {
 	
 	//엑셀로 저장하기
 	@RequestMapping("board_excel")
-	public void board_excel(SearchingDto searchingDto,HttpServletRequest request, HttpServletResponse response) {
-			System.out.println(searchingDto.getCur_page());
-			System.out.println(searchingDto.getKeyword());
-			System.out.println(request.getParameter("excel_type"));
+	public void board_excel(SearchingDto searchingDto, Model model,HttpServletRequest request, HttpServletResponse response)throws Exception {
+			
+			List<BDto> list = bService.b_list(searchingDto);
+			
+			SXSSFWorkbook workbook = bService.excelFileDownloadProcess(list);
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("locale", Locale.KOREA);
+			map.put("workbook",workbook);
+			map.put("workbookName","자유게시판");
+			
+		ExcelDownload download = new ExcelDownload();
+		download.renderMergedOutputModel(map, request, response);
 	}
 	
 	//글 상세보기
@@ -87,16 +102,19 @@ public class BController {
 	
 	//답변등록
 	@RequestMapping("b_reply")
-	public String b_reply(BDto bDto,HttpServletRequest request)throws Exception {
-		bService.stepup(request);
-		bService.b_reply(bDto, request);
+	public String b_reply(BDto bDto,MultipartHttpServletRequest mprequest)throws Exception {
+		String write_type="reply";
+		bService.stepup(mprequest);
+		bService.b_write(bDto, mprequest,write_type);
 		return "redirect:board";
 	}
 
 	//글 등록
 	@RequestMapping("b_write")
 	public String b_write (BDto bDto,MultipartHttpServletRequest mprequest)throws Exception {
-		bService.b_write(bDto, mprequest);
+		String write_type="write";
+		bService.b_write(bDto, mprequest,write_type);
+		
 		return "redirect:board";
 	}
 	

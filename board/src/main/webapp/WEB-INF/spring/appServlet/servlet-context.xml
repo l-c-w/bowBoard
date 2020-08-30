@@ -18,6 +18,10 @@
 	<resources mapping="/js/**" location="/js/" />
 	<resources mapping="/images/**" location="/images/" />
 	<resources mapping="/upload/**" location="/upload/" />
+	
+	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <beans:property name="order" value="0"/>
+    </beans:bean>
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -26,6 +30,10 @@
 		</beans:bean>
 		
 		<context:component-scan base-package="com.javalec.ex" />
+		
+		<beans:bean id="excelDownloadView" class="com.javalec.ex.Dto.ExcelDownload"/>
+		
+		 <beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
 		
 		<!-- dataSource -->
 

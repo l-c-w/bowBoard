@@ -63,7 +63,7 @@ th{background-color: #efefef}
 	<option value="all_page">전체 페이지</option>
 	<option value="now_page">현재 페이지</option>
 	</select>
-	<button type="button" name="excel" onclick="to_excel('${paging.cur_page}','${sv.keyword}')">엑셀파일로 저장</button>
+	<button type="button" name="excel" onclick="to_excel('${paging.cur_page}','${sv.sort}','${sv.keyword}')">엑셀파일로 저장</button>
 	
 	<hr>
 	<table>
@@ -229,11 +229,11 @@ th{background-color: #efefef}
 			}
 		}
 		
-		function to_excel(cur_page,keyword) {
-			
+		function to_excel(cur_page,sort,keyword) {
 			var excel_type=$("#excel_type").val();
 			
-			location.href='board_excel?cur_page'+cur_page+'&keyword='+keyword+'&excel_type='+excel_type; 
+			
+			location.href='board_excel?cur_page'+cur_page+'&sort='+sort+'&keyword='+keyword+'&excel_type='+excel_type; 
 			
 			
 		}

@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -18,6 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,6 +46,76 @@ public class BServiceImpl implements BService {
 	public List<BDto> b_list(SearchingDto searchingDto) throws Exception {
 		return bDao.b_list(searchingDto);
 	}
+	
+	@Override
+	public SXSSFWorkbook board_excel(List<BDto> list) throws Exception {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SXSSFWorkbook workbook = new SXSSFWorkbook();
+        
+        // 시트 생성
+        SXSSFSheet sheet = workbook.createSheet("자유게시판");
+        
+        //시트 열 너비 설정
+        sheet.setColumnWidth(0, 1500);
+        sheet.setColumnWidth(0, 3000);
+        sheet.setColumnWidth(0, 3000);
+        sheet.setColumnWidth(0, 1500);
+        
+        // 헤더 행 생
+        Row headerRow = sheet.createRow(0);
+        // 해당 행의 첫번째 열 셀 생성
+        Cell headerCell = headerRow.createCell(0);
+        headerCell.setCellValue("글번호");
+        // 해당 행의 두번째 열 셀 생성
+        headerCell = headerRow.createCell(1);
+        headerCell.setCellValue("제목");
+        // 해당 행의 세번째 열 셀 생성
+        headerCell = headerRow.createCell(2);
+        headerCell.setCellValue("작성자");
+        // 해당 행의 네번째 열 셀 생성
+        headerCell = headerRow.createCell(3);
+        headerCell.setCellValue("작성일");
+        
+        // 과일표 내용 행 및 셀 생성
+        Row bodyRow = null;
+        Cell bodyCell = null;
+        for(int i=0; i<list.size(); i++) {
+            BDto bDto = list.get(i);
+            
+            // 행 생성
+            bodyRow = sheet.createRow(i+1);
+            // 글번호
+            bodyCell = bodyRow.createCell(0);
+            bodyCell.setCellValue(i + 1);
+            // 글제목
+            bodyCell = bodyRow.createCell(1);
+            bodyCell.setCellValue(bDto.getB_title());
+            // 글내용
+            bodyCell = bodyRow.createCell(2);
+            bodyCell.setCellValue(bDto.getB_content());
+            // 작성자
+            bodyCell = bodyRow.createCell(3);
+            bodyCell.setCellValue(bDto.getB_name());
+            // 작성일
+            bodyCell = bodyRow.createCell(4);
+            String date= format.format(bDto.getB_date());
+            System.out.println(date);
+            
+            bodyCell.setCellValue(date);
+            
+        }
+        
+        return workbook;
+	}
+	
+	//엑셀 워크북 생성
+	@Override
+	public SXSSFWorkbook excelFileDownloadProcess(List<BDto> list) throws Exception {
+
+		return this.board_excel(list);
+	}
+	
+	
 	
 	//글 페이징 요소
 	@Override
@@ -74,7 +150,7 @@ public class BServiceImpl implements BService {
 
 	//글쓰기
 	@Override
-	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest) throws Exception {
+	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest,String write_type) throws Exception {
 		//저장경로
 		//String path = "C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
 		String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
@@ -103,7 +179,17 @@ public class BServiceImpl implements BService {
 		bDto.setB_files(upload_files);
 		bDto.setB_file_names(upload_names);
 		
-		return bDao.b_write(bDto);
+		int result=0;
+		if(write_type.equals("write")) {
+			result=bDao.b_write(bDto);
+		}else if (write_type.equals("reply")) {
+			bDto.setB_group(Integer.parseInt(mprequest.getParameter("b_group")));
+			bDto.setB_step(Integer.parseInt(mprequest.getParameter("b_step")));
+			bDto.setB_indent(Integer.parseInt(mprequest.getParameter("b_indent")));
+			result=bDao.b_reply(bDto);
+		}
+		
+		return result;
 	}
 	
 	//파일 다운로드
@@ -180,10 +266,11 @@ public class BServiceImpl implements BService {
 	
 	//답변 등록
 	@Override
-	public int b_reply(BDto bDto, HttpServletRequest request) throws Exception {
-		bDto.setB_group(Integer.parseInt(request.getParameter("b_group")));
-		bDto.setB_step(Integer.parseInt(request.getParameter("b_step")));
-		bDto.setB_indent(Integer.parseInt(request.getParameter("b_indent")));
+	public int b_reply(BDto bDto, MultipartHttpServletRequest mprequest) throws Exception {
+		
+		
+		System.out.println(bDto.getB_files());
+		System.out.println(bDto.getB_file_names());
 		
 		return bDao.b_reply(bDto);
 	}
@@ -309,6 +396,10 @@ public class BServiceImpl implements BService {
 		
 		return bDao.r_delete(r_num);
 	}
+
+	
+
+	
 
 	
 

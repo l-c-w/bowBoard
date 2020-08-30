@@ -38,7 +38,9 @@
 		</if>) b)
 		
 		<!-- 페이지에 출력할 글 갯수  -->
+		<if test="excel_type==null||excel_type.equals('now_page')">
 		where rnum between #{cur_page}*10-9 and #{cur_page}*10
+		</if>
 	</select>
 	
 	
@@ -87,7 +89,7 @@
 	
 	<!-- 답변등록 -->
 	<insert id="b_reply" parameterType="com.javalec.ex.Dto.BDto">
-		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw},#{b_group},#{b_step}+1,#{b_indent}+1,null,null)
+		insert into board values(b_seq.nextval,#{b_name},#{b_title},#{b_content},sysdate,#{b_pw},#{b_group},#{b_step}+1,#{b_indent}+1,null,null,#{b_files},#{b_file_names})
 	</insert>
 	
 	<!-- 비밀번호 확인 -->
