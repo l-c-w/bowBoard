@@ -309,6 +309,9 @@ public class BServiceImpl implements BService {
 		//저장경로
 		String path = "C:/Users/arang/Documents/GitHub/bowBoard/bowBoard/board/src/main/webapp/upload/";
 		//String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		
+		
+		
 		String upload_files="";
 		String upload_names="";
 		
@@ -330,6 +333,7 @@ public class BServiceImpl implements BService {
 			upload_files+= file_name+"*";
 			upload_names+= originalName+"*";
 			
+			System.out.println(originalName);
 			
 			};
 		}

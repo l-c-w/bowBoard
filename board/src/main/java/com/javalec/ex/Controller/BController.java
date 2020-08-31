@@ -156,6 +156,9 @@ public class BController {
 	// 글 수정하기
 	@RequestMapping("b_update")
 	public String b_update(BDto bDto, MultipartHttpServletRequest mprequest) throws Exception {
+		String ori_files[]= mprequest.getParameterValues("ori_files");
+		String ori_file_names[]=mprequest.getParameterValues("ori_file_names");
+		
 		int b_num = bDto.getB_num();
 		String cur_page = mprequest.getParameter("cur_page");
 		bService.b_update(bDto, mprequest);

@@ -73,6 +73,7 @@ tr{display:block;}
 		</div>
 		</c:when>
 		<c:when test="${not empty b_view.b_files }">
+		<c:set var="files" value="${fn:split(b_view.b_files,'*') }"/>
 		<c:set var="file_names" value="${fn:split(b_view.b_file_names,'*') }"/>
 		<h3>첨부파일<span style="color: #FF5E00;" id="file_count">(${fn:length(file_names) })</span><span style="font-size: 14px;" >&nbsp&nbsp※최대 5개(파일당 최대 10MB)</span></h3>
 		
@@ -80,7 +81,10 @@ tr{display:block;}
 			<c:forEach var="files1" items="${file_names }" varStatus="status">
 				<div class="file${status.index+1 }"><span class="files">${files1 }</span>
 				<label class="input_files"><button type="button" onclick="remove_file('file${status.index+1 }')" style="display: none;"></button>
-				<img class="cancle" alt="취소" src="resources/images/cancle.png"></label><br></div>
+				<img class="cancle" alt="취소" src="resources/images/cancle.png"></label><br>
+				<input type="text" name="ori_file_names" value="${files1 }" style="display:none; ">
+				<input type="text" name="ori_files" value="${files[status.index] }" style="display: none;">
+				</div>
 		</c:forEach>
 		</c:when>		
 		</c:choose>
