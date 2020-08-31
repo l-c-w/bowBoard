@@ -42,11 +42,13 @@ public class BServiceImpl implements BService {
 	@Inject
 	BDao bDao;
 	
+	//리스트 가져오기
 	@Override
 	public List<BDto> b_list(SearchingDto searchingDto) throws Exception {
 		return bDao.b_list(searchingDto);
 	}
 	
+	//엑셀파일 생성
 	@Override
 	public SXSSFWorkbook board_excel(List<BDto> list) throws Exception {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -151,9 +153,12 @@ public class BServiceImpl implements BService {
 	//글쓰기
 	@Override
 	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest,String write_type) throws Exception {
-		//저장경로
-		//String path = "C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
-		String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		
+		String path = "C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		/*
+		 * String path
+		 * ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		 */
 		String upload_files="";
 		String upload_names="";
 		
@@ -196,8 +201,8 @@ public class BServiceImpl implements BService {
 	@Override
 	public void file_down(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//저장 경로
-		//String path="C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
-		String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		String path="C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		//String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
 		//저장되어 있는 파일의 경로
 		String realPath = path+request.getParameter("full_name");
 		//업로드 당시 원래 파일의 이름
