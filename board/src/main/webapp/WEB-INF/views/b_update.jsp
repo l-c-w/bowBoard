@@ -43,7 +43,7 @@ tr{display:block;}
 		<input type="hidden" value="${cur_page }" name="cur_page">
 		<tr id="title">
 		<td>
-		<label for="b_title">제목</label><br><input type="text" value="${b_view.b_title }" name="b_title" id="b_title">
+		<label for="b_title">제목</label><br><input type="text" value="<c:out value="${b_view.b_title }"/>" name="b_title" id="b_title">
 		<br>
 		<span id="title_check" class="checking"></span>
 		<br>
@@ -59,7 +59,7 @@ tr{display:block;}
 		</tr>
 		<tr>
 		<td id="content">
-		<textarea rows="10" cols="100" name="b_content" id="b_content">${b_view.b_content }</textarea>
+		<textarea rows="10" cols="100" name="b_content" id="b_content"><c:out value="${b_view.b_content }"/></textarea>
 		<span id="content_count" class="count">0/2000자</span>
 		<span id="content_check" class="checking"></span>
 		</td>
@@ -74,17 +74,17 @@ tr{display:block;}
 		</c:when>
 		<c:when test="${not empty b_view.b_files }">
 		<c:set var="file_names" value="${fn:split(b_view.b_file_names,'*') }"/>
-		<h3>첨부파일<span style="color: #FF5E00;" id="file_count">(${fn:length(file_names) })</span><span style="font-size: 14px;" >&nbsp&nbsp※최대 5개</span></h3>
+		<h3>첨부파일<span style="color: #FF5E00;" id="file_count">(${fn:length(file_names) })</span><span style="font-size: 14px;" >&nbsp&nbsp※최대 5개(파일당 최대 10MB)</span></h3>
 		
 			<div id="input_file">
-		<c:forEach var="files1" items="${file_names }" varStatus="status">
+			<c:forEach var="files1" items="${file_names }" varStatus="status">
 				<div class="file${status.index+1 }"><span class="files">${files1 }</span>
 				<label class="input_files"><button type="button" onclick="remove_file('file${status.index+1 }')" style="display: none;"></button>
-				<img class="cancle" alt="취소" src="resources/images/cancle.png"></label><br>
+				<img class="cancle" alt="취소" src="resources/images/cancle.png"></label><br></div>
 		</c:forEach>
 		</c:when>		
 		</c:choose>
-			</div>
+			
 		
 		</div>
 		<div id="select_file">

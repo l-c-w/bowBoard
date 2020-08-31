@@ -164,10 +164,10 @@ li{width: 1000px;}
 			]</span>	
 			</li>
 			<div id="${rList.r_num }">
-			<li style="margin-bottom: 10px; width: 1000px; word-break:break-all;" id="${rList.r_num }r_content">${rList.r_content }</li>
+			<li style="margin-bottom: 10px; width: 1000px; word-break:break-all;" id="${rList.r_num }r_content"><c:out value="${rList.r_content }"/></li>
 			<li  style="width:1030px; height:20px; margin-left: 920px;">
-				<button class="btn" type="button" onclick="rpw_check('${rList.r_num }')">수정</button>
-				<button class="btn" type="button" onclick="r_delete('${rList.r_num }')">삭제</button>
+				<button class="btn" type="submit" onclick="rpw_check('${rList.r_num }')">수정</button>
+				<button class="btn" type="submit" onclick="r_delete('${rList.r_num }')">삭제</button>
 			</li>
 			</div>	
 		</ul>
@@ -316,17 +316,11 @@ li{width: 1000px;}
 	//댓글 수정 비밀번호 체크
 	function rpw_check(r_num) {
 		
-		var update_check= confirm("댓글을 수정하시겠습니까?");
-			
-			if(update_check){
 				var popupWidth = 400;
 				var popupHeight = 200;
 				var popupX = (window.screen.width / 2) - (popupWidth / 2);
 				var popupY= (window.screen.height / 2) - (popupHeight / 2);
 				window.open('pw_check?type=r_update&r_num='+r_num,'viewer', 'width='+popupWidth+', height='+popupHeight+',left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);	
-			}else {
-				return;
-			}
 				
 		}
 	

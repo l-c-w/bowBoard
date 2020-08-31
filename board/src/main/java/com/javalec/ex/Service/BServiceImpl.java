@@ -73,9 +73,12 @@ public class BServiceImpl implements BService {
         headerCell.setCellValue("제목");
         // 해당 행의 세번째 열 셀 생성
         headerCell = headerRow.createCell(2);
+        headerCell.setCellValue("글내용");
+        // 해당 행의 세번째 열 셀 생성
+        headerCell = headerRow.createCell(3);
         headerCell.setCellValue("작성자");
         // 해당 행의 네번째 열 셀 생성
-        headerCell = headerRow.createCell(3);
+        headerCell = headerRow.createCell(4);
         headerCell.setCellValue("작성일");
         
         // 과일표 내용 행 및 셀 생성
@@ -101,7 +104,6 @@ public class BServiceImpl implements BService {
             // 작성일
             bodyCell = bodyRow.createCell(4);
             String date= format.format(bDto.getB_date());
-            System.out.println(date);
             
             bodyCell.setCellValue(date);
             
@@ -145,8 +147,6 @@ public class BServiceImpl implements BService {
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
 		BDto bDto = bDao.b_view(b_num);
 		
-		System.out.println(bDto.getB_file_names());
-		
 		return bDto;
 	}
 
@@ -154,7 +154,9 @@ public class BServiceImpl implements BService {
 	@Override
 	public int b_write(BDto bDto,MultipartHttpServletRequest mprequest,String write_type) throws Exception {
 		
-		String path = "C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		String path = "C:/Users/arang/Documents/GitHub/bowBoard/bowBoard/board/src/main/webapp/upload/";
+		
+		
 		/*
 		 * String path
 		 * ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
@@ -201,16 +203,12 @@ public class BServiceImpl implements BService {
 	@Override
 	public void file_down(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//저장 경로
-		String path="C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		String path="C:/Users/arang/Documents/GitHub/bowBoard/bowBoard/board/src/main/webapp/upload/";
 		//String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
 		//저장되어 있는 파일의 경로
 		String realPath = path+request.getParameter("full_name");
 		//업로드 당시 원래 파일의 이름
 		String fileName =request.getParameter("ori_name");
-		
-		System.out.println("경로:"+realPath);
-		System.out.println("파일이름:" +fileName);
-		
 		
 		//실제 경로
 		File file = new File(realPath);
@@ -223,7 +221,6 @@ public class BServiceImpl implements BService {
 			String downName=null;
 			//헤더에서 브라우저 정보 가져오기
 			String browser = request.getHeader("User-Agent");
-			System.out.println("브라우저:"+browser);
 			
 			if (browser.contains("MSIE") || browser.contains("Trident") || browser.contains("Chrome")) {
 				 downName = URLEncoder.encode(fileName,"UTF-8").replaceAll("\\+", "%20");
@@ -273,10 +270,6 @@ public class BServiceImpl implements BService {
 	@Override
 	public int b_reply(BDto bDto, MultipartHttpServletRequest mprequest) throws Exception {
 		
-		
-		System.out.println(bDto.getB_files());
-		System.out.println(bDto.getB_file_names());
-		
 		return bDao.b_reply(bDto);
 	}
 
@@ -314,8 +307,8 @@ public class BServiceImpl implements BService {
 	@Override
 	public int b_update(BDto bDto,MultipartHttpServletRequest mprequest) throws Exception {
 		//저장경로
-		//String path = "C:/Users/arang/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
-		String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
+		String path = "C:/Users/arang/Documents/GitHub/bowBoard/bowBoard/board/src/main/webapp/upload/";
+		//String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
 		String upload_files="";
 		String upload_names="";
 		

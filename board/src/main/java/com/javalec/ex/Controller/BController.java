@@ -55,7 +55,14 @@ public class BController {
 	@RequestMapping("board_excel")
 	public void board_excel(SearchingDto searchingDto, Model model,HttpServletRequest request, HttpServletResponse response)throws Exception {
 			
+			System.out.println(searchingDto.getCur_page());
 			List<BDto> list = bService.b_list(searchingDto);
+			
+			for (int i = 0; i < list.size(); i++) {
+				BDto bDto = list.get(i);
+				System.out.println(bDto.getB_num()+"//"+bDto.getB_title());
+				
+			}
 			
 			SXSSFWorkbook workbook = bService.excelFileDownloadProcess(list);
 			

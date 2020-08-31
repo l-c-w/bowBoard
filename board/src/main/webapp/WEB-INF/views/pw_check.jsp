@@ -20,7 +20,7 @@ div{width:220px; margin: 50px auto; }
 		<input type="hidden" name="r_num" value="${r_num }">
 	
 		<input type="password" name="b_pw" id="b_pw" placeholder="비밀번호를 입력하세요.">
-		<button type="button" onclick="go_check('${b_num}','${type }','${cur_page}','${b_step}','${b_group}',${r_num })">확인</button>
+		<button type="submit" onclick="go_check('${b_num}','${type }','${cur_page}','${b_step}','${b_group}',${r_num })">확인</button>
 	</form>
 	<span id="notice" class="checking"></span>
 	</div>

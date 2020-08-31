@@ -11,15 +11,15 @@
 <title>자유게시판</title>
 <style type="text/css">
 a{text-decoration: none; color: black; border: 1px solid #666; padding: 3px;}
-#b_whole{width:1000px; margin: 0 auto; margin-bottom: 50px;}
-table{width: 1000px; border-collapse: collapse;}
+#b_whole{width:1030px; margin: 0 auto; margin-bottom: 50px;}
+table{width: 1030px; border-collapse: collapse;}
 
 
 tr{margin-top: 10px;}
 td{margin-top: 10px;}
 th{height: 30px; vertical-align: middle; padding-top: 10px;}
 .b_num{display:inline-block; float:left; width:120px; text-align: center; } 
-.b_title{display:inline-block; float:left; width:600px; word-break:break-all; }
+.b_title{display:inline-block; float:left; width:660px; word-break:break-all; }
 /* .b_title{display:inline-block; float:left; width:600px;  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right: 30px;} */
 .repl_count{color: #FF5E00; font-weight: bold; vertical-align: top;}
 .b_name{display:block; float:left; width:120px; text-align: center; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align: center;}
@@ -32,7 +32,6 @@ select{height:22px;}
 #keyword{display: inline-block; vertical-align: top; margin-top: 1px}
 #btnWrap{display: inline-block;}
 .b_write{display:inline-block;}
-table{border-collapse: collapse;}
 th{background-color: #efefef}
 
 </style>
@@ -67,6 +66,7 @@ th{background-color: #efefef}
 	
 	<hr>
 	<table>
+	
 		
 		<tr>
 			<th class="b_num">글번호</th>
@@ -233,7 +233,7 @@ th{background-color: #efefef}
 			var excel_type=$("#excel_type").val();
 			
 			
-			location.href='board_excel?cur_page'+cur_page+'&sort='+sort+'&keyword='+keyword+'&excel_type='+excel_type; 
+			location.href='board_excel?cur_page='+cur_page+'&sort='+sort+'&keyword='+keyword+'&excel_type='+excel_type; 
 			
 			
 		}

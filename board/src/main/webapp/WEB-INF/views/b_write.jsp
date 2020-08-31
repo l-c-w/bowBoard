@@ -65,7 +65,7 @@
 		<span id="content_count" class="count">0/2000자</span>
 		<span id="content_check" class="checking"></span>
 		
-		<h3>첨부파일<span style="color: #FF5E00;" id="file_count">(0)</span><span style="font-size: 14px;" >&nbsp&nbsp※최대 5개</span></h3>
+		<h3>첨부파일<span style="color: #FF5E00;" id="file_count">(0)</span><span style="font-size: 14px;" >&nbsp&nbsp※최대 5개(파일당 최대 10MB)</span></h3>
 		<div id="input_file">
 		</div>
 		
@@ -208,26 +208,34 @@
 		function after_input(this_id) {
 			
 			var thisId= "#"+this_id;
+			//파일 사이즈 
+			var fileSize= document.getElementById(this_id).files[0].size;
+			//최대 사이즈
+			var maxSize = 1024 * 1024 * 10;
 			
-			$("#file_count").html('('+$(".files").length+')');
-			
+			//파일사이즈 제한
+			if(fileSize>maxSize){
+				alert("파일용량은 10MB까지 가능합니다.");
+				$(thisId).val("");
+				return;
+			}
+			//파일 업로드 갯수 제한
 			if($("input[name='files']").length>5){
 				alert("파일 업로드는 5개까지 가능합니다.");
 				$("#file_count").html('(5)');
 				$(thisId).val("");
 				return;
 			}
+			//첨부파일 갯수 변경
+			$("#file_count").html('('+$(".files").length+')');
 			
 			//id값 셋팅
 			var set_num= (this_id.substring(4, 5)*1)+1;
 			var set_id= "file"+set_num;
 			
-			
-			
 			//파일명 가져오기
 			var file_id="#"+this_id;
 			var fileValue=$(file_id).val().split("\\");
-			
 			var fileName=fileValue[fileValue.length-1];
 			
 			
