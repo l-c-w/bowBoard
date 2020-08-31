@@ -9,6 +9,7 @@ public class SearchingDto {
 	//검색어
 	private String keyword;
 	
+	
 	//날짜 검색용 추가
 	private String end_date;
 	
