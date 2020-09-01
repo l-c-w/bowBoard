@@ -115,6 +115,9 @@ th{background-color: #efefef}
 			</c:when>
 			
 			</c:choose>
+			<c:if test="${not empty b_list.b_files }">
+				<img alt="파일있음" src="resources/images/file_icon.jpg" width="16px;" height="16px;" style="vertical-align: middle;">
+			</c:if>
 			
 			<c:if test="${b_list.repl_count>0 }">
 			<span class="repl_count">[${b_list.repl_count }]</span>

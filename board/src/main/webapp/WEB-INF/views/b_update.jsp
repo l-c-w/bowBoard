@@ -22,7 +22,7 @@ tr{display:block;}
 #date{font-size: 14px; color: grey;}
 #b_content{width: 1000px; border: 2px solid black;}
 .count{color: #aaa}
-#btnwrap{float: right; margin-top: 10px;}
+#btnwrap{float: right; margin-top: 10px; margin-bottom: 100px;}
 .checking{font-size: 14px; color: red;}
 
 .files{margin-bottom: 5px;}
@@ -174,6 +174,18 @@ tr{display:block;}
 				var thisId= "#"+this_id;
 				var set_num= (this_id.substring(4, 5)*1)+1;
 				var set_id= "file"+set_num;
+				
+				//파일 사이즈 
+				var fileSize= document.getElementById(this_id).files[0].size;
+				//최대 사이즈
+				var maxSize = 1024 * 1024 * 10;
+				
+				//파일사이즈 제한
+				if(fileSize>maxSize){
+					alert("파일용량은 10MB까지 가능합니다.");
+					$(thisId).val("");
+					return;
+				}
 				
 				
 				if($(".files").length>5){

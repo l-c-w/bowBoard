@@ -20,7 +20,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -51,7 +58,7 @@ public class BServiceImpl implements BService {
 	//엑셀파일 생성
 	@Override
 	public SXSSFWorkbook board_excel(List<BDto> list) throws Exception {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		SXSSFWorkbook workbook = new SXSSFWorkbook();
         
         // 시트 생성
@@ -59,31 +66,56 @@ public class BServiceImpl implements BService {
         
         //시트 열 너비 설정
         sheet.setColumnWidth(0, 1500);
-        sheet.setColumnWidth(0, 3000);
-        sheet.setColumnWidth(0, 3000);
-        sheet.setColumnWidth(0, 1500);
+        sheet.setColumnWidth(1, 10000);
+        sheet.setColumnWidth(2, 20000);
+        sheet.setColumnWidth(3, 3000);
+        sheet.setColumnWidth(4, 3000);
         
-        // 헤더 행 생
+        //헤더 스타일
+        CellStyle header_style = workbook.createCellStyle();
+		header_style.setAlignment(HorizontalAlignment.CENTER);
+        header_style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        header_style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        header_style.setBorderBottom(BorderStyle.MEDIUM);
+        //폰트설정
+        Font black15 = workbook.createFont();
+        black15.setFontName("나눔고딕");
+        black15.setFontHeight((short)(15*20));
+        black15.setBold(true);
+        header_style.setFont(black15);
+        
+        //가운데 정렬
+        CellStyle align_center = workbook.createCellStyle();
+        align_center.setAlignment(HorizontalAlignment.CENTER);
+        
+        // 헤더 행 생성
         Row headerRow = sheet.createRow(0);
         // 해당 행의 첫번째 열 셀 생성
         Cell headerCell = headerRow.createCell(0);
-        headerCell.setCellValue("글번호");
+        headerCell.setCellStyle(header_style);
+        headerCell.setCellValue("연번");
         // 해당 행의 두번째 열 셀 생성
         headerCell = headerRow.createCell(1);
-        headerCell.setCellValue("제목");
+        headerCell.setCellStyle(header_style);
+        headerCell.setCellValue("글제목");
         // 해당 행의 세번째 열 셀 생성
         headerCell = headerRow.createCell(2);
+        headerCell.setCellStyle(header_style);
         headerCell.setCellValue("글내용");
         // 해당 행의 세번째 열 셀 생성
         headerCell = headerRow.createCell(3);
+        headerCell.setCellStyle(header_style);
         headerCell.setCellValue("작성자");
         // 해당 행의 네번째 열 셀 생성
         headerCell = headerRow.createCell(4);
+        headerCell.setCellStyle(header_style);
         headerCell.setCellValue("작성일");
         
         // 과일표 내용 행 및 셀 생성
         Row bodyRow = null;
         Cell bodyCell = null;
+        //셀 스타일 설정 시작
+      
         for(int i=0; i<list.size(); i++) {
             BDto bDto = list.get(i);
             
@@ -92,6 +124,7 @@ public class BServiceImpl implements BService {
             // 글번호
             bodyCell = bodyRow.createCell(0);
             bodyCell.setCellValue(i + 1);
+            bodyCell.setCellStyle(align_center);
             // 글제목
             bodyCell = bodyRow.createCell(1);
             bodyCell.setCellValue(bDto.getB_title());
@@ -101,10 +134,11 @@ public class BServiceImpl implements BService {
             // 작성자
             bodyCell = bodyRow.createCell(3);
             bodyCell.setCellValue(bDto.getB_name());
+            bodyCell.setCellStyle(align_center);
             // 작성일
             bodyCell = bodyRow.createCell(4);
             String date= format.format(bDto.getB_date());
-            
+            bodyCell.setCellStyle(align_center);
             bodyCell.setCellValue(date);
             
         }
@@ -310,10 +344,18 @@ public class BServiceImpl implements BService {
 		String path = "C:/Users/arang/Documents/GitHub/bowBoard/bowBoard/board/src/main/webapp/upload/";
 		//String path ="C:/Users/111/Documents/GitHub/bowBoard/board/src/main/webapp/upload/";
 		
-		
+		String ori_files[] = mprequest.getParameterValues("ori_files");
+		String ori_file_names[] = mprequest.getParameterValues("ori_file_names");
 		
 		String upload_files="";
 		String upload_names="";
+		
+		if(ori_files!=null||ori_file_names!=null) {
+			for (int i = 0; i < ori_file_names.length; i++) {
+				upload_files+=ori_files[i]+"*";
+				upload_names+=ori_file_names[i]+"*";
+			}
+		}
 		
 		//파일 받아오기
 		List<MultipartFile> file_list = mprequest.getFiles("files");

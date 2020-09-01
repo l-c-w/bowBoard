@@ -11,7 +11,7 @@
 		select * 
 		from
 		(select row_number() over(order by b_group desc, b_step asc,b_date desc) as rnum, 
-		b.b_num, b.b_title, b.b_name,b.b_content, b.b_date, b.b_step, b.b_group, b.b_indent,
+		b.b_num, b.b_title, b.b_name,b.b_content, b.b_date, b.b_step, b.b_group, b.b_indent, b.b_files, b.b_file_names,
 		(select count(*) from r_board r where b.b_num=r.b_num)as repl_count 
 		from
 		(select * from board
